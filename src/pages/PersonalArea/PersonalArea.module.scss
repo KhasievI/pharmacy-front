@@ -1,0 +1,42 @@
+
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 5rem;
+  .action_choice {
+    height: 44%;
+    width: 20%;
+    border-radius: 13px 0 0 13px;
+    background-color: #ebe5e5;
+    cursor: pointer;
+    .action_choice_el {
+      text-align: center;
+    }
+  }
+  input {
+    border-radius: 0;
+    width: 100%;
+  }
+  .btn {
+    height: 44%;
+    width: 20%;
+    border-radius: 0 13px 13px 0;
+    background-color: #ebe5e5;
+    cursor: pointer;
+  }
+}
+.medicine {
+  margin: 0 auto;
+  width: 50%;
+  input {
+    margin: 1% 0;
+    padding: 0 0 0 2%;
+    width: 98%;
+  }
+  .cat {
+    width: 100%;
+  }
+}
