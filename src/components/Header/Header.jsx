@@ -7,13 +7,11 @@ const Header = () => {
       <div className={styles.header2}>
         <div className={styles.blok}>
           <img
-
             className={styles.img_logo}
             src="apteka12.png"
             alt="изображение"
           />
         </div>
-
         <div className={styles.blok}>
           <img
             className={styles.admin_siz}
@@ -24,7 +22,6 @@ const Header = () => {
         </div>
       </div>
     </header>
-    
   );
 };
 

@@ -10,14 +10,15 @@ export const Login = () => {
   const [password, setPassword] = useState('')
 
   const { status } = useSelector((state) => state.pharmacy)
+  const { pharmacy } = useSelector((state) => state.pharmacy)
   const isAuth = useSelector(checkIsAuth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (status) toast(status)
-    if (isAuth) navigate('/')
-  }, [status, isAuth, navigate])
+    if (isAuth) navigate(`/${pharmacy._id}`)
+  }, [status, isAuth, navigate, pharmacy])
 
   const handleSubmit = () => {
     try {
@@ -61,7 +62,7 @@ export const Login = () => {
         </button>
         
         <Link className={styles.link}
-          to='/register'
+          to='/registrate'
         >
           Нет аккаунта ?
         </Link>

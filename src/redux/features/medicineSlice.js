@@ -30,26 +30,7 @@ export const fetchMedicineById = createAsyncThunk(
 
 export const addMedicine = createAsyncThunk(
   "add/medicine",
-  async (
-    {
-      pharmacyName,
-      address,
-      img,
-      name,
-      weight,
-      methodOfAdministrationAndDose,
-      typeOfDosageForm,
-      dateOfManufacture,
-      expirationDate,
-      series,
-      price,
-      barcode,
-      storageConditions,
-      countInStock,
-      category,
-    },
-    thunkAPI,
-  ) => {
+  async ({ data }, thunkAPI) => {
     try {
       const medicine = await fetch("http://localhost:4141/med", {
         method: "POST",
@@ -57,21 +38,21 @@ export const addMedicine = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          pharmacyName,
-          address,
-          img,
-          name,
-          weight,
-          methodOfAdministrationAndDose,
-          typeOfDosageForm,
-          dateOfManufacture,
-          expirationDate,
-          series,
-          price,
-          barcode,
-          storageConditions,
-          countInStock,
-          category,
+          pharmacyName: data.get('pharmName'),
+          address: data.get('address'),
+          img: data.get('img'),
+          medName: data.get('name'),
+          weight: data.get('weight'),
+          methodOfAdministrationAndDose: data.get('methodOfAdministration'),
+          typeOfDosageForm: data.get('typeOfDosageForm'),
+          dateOfManufacture: data.get('dateOfManufacture'),
+          expirationDate: data.get('expirationDate'),
+          series: data.get('series'),
+          price: data.get('price'),
+          barcode: data.get('barcode'),
+          storageConditions: data.get('storageConditions'),
+          countInStock: data.get('countInStock'),
+          category: data.get('cat'),
         }),
       });
       return await medicine.json();

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import styles from './Register.module.scss'
-import { checkIsAuth, registerPharmacy } from '../../redux/features/pharmacySlice'
+import styles from './Registrate.module.scss'
+import { checkIsAuth, registratePharmacy } from '../../redux/features/pharmacySlice'
 
-export const Register = () => {
+export const Registrate = () => {
   const [pharmacyName, setPharmacyName] = useState('')
   const [password, setPassword] = useState('')
   const [address, setAddress] = useState('')
+  const [logo, setLogo] = useState('')
   const [license, setLicense] = useState('')
   const [ogrn, setOgrn] = useState('')
   const [inn, setInn] = useState('')
@@ -16,26 +17,28 @@ export const Register = () => {
   const isAuth = useSelector(checkIsAuth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { pharmacy } = useSelector((state) => state.pharmacy)
 
   console.log(isAuth);
   useEffect(() => {
     if (status) {
       toast(status)
     }
-    if (isAuth) navigate('/')
-  }, [status, isAuth, navigate])
+    if (isAuth) navigate(`/${pharmacy._id}`)
+  }, [status, isAuth, navigate, pharmacy])
 
   const handleSubmit = () => {
     try {
-      if (pharmacyName && password && address && license && ogrn && inn) {
-        dispatch(registerPharmacy({ pharmacyName, password, address, license, ogrn, inn }))
-        setPassword('')
-        setPharmacyName('')
-        setAddress('')
-        setLicense('')
-        setOgrn('')
-        setInn('')
-      }
+      const data = new FormData()
+      data.append('pharmacyName', pharmacyName)
+      data.append('password', password)
+      data.append('logo', logo)
+      data.append('address', address)
+      data.append('license', license)
+      data.append('ogrn', ogrn)
+      data.append('inn', inn)
+      dispatch(registratePharmacy({data}))
+      // console.log(data)
     } catch (error) {
       console.log(error)
     }
@@ -55,7 +58,6 @@ export const Register = () => {
           placeholder='Pharmacy'
         />
       </label>
-
       <label>
         Пароль:
         <input
@@ -64,6 +66,18 @@ export const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder='Password'
         />
+      </label>
+      <label>
+        Логотип:
+        <input
+          type='file'
+          className={styles.hidden}
+          onChange={(e) => setLogo(e.target.files[0])}
+          placeholder='Logo'
+        />
+         {logo && (
+          <img src={URL.createObjectURL(logo)} alt={logo.name} />
+        )}
       </label>
       <label>
         Адрес:
