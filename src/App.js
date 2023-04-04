@@ -12,6 +12,7 @@ import { Registrate } from './pages/Registrate/Registrate'
 import { Login } from './pages/Login/Login'
 import { HomePage } from './pages/HomePage/HomePage'
 import { PersonalArea } from './pages/PersonalArea/PersonalArea'
+import Footer from './components/Footer/Footer'
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />
       </Routes>
+      <Footer/>
       <ToastContainer position='bottom-right' />
     </div>
   )
