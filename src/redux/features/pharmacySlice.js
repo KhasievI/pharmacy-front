@@ -6,7 +6,7 @@ const initialState = {
   token: window.localStorage.getItem("token") || null,
   isLoading: false,
   status: null,
-}
+};
 
 export const authExit = createAsyncThunk("auth/exit", async (_, thunkAPI) => {
   localStorage.removeItem("token");
@@ -19,25 +19,21 @@ export const registratePharmacy = createAsyncThunk(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        pharmacyName: data.get('pharmacyName'),
-        password: data.get('password'),
-        logo: data.get('logo'),
-        address: data.get('address'),
-        license: data.get('license'),
-        ogrn: data.get('ogrn'),
-        inn: data.get('inn'),
+        pharmacyName: data.get("pharmacyName"),
+        password: data.get("password"),
+        logo: data.get("logo"),
+        address: data.get("address"),
+        license: data.get("license"),
+        ogrn: data.get("ogrn"),
+        inn: data.get("inn"),
       }),
     });
     const res = await response.json();
-    console.log(res);
-      if (res.token) {
-      window.localStorage.setItem('token', res.token)
-    }
-    if (res.message) {
-      return thunkAPI.rejectWithValue(response);
+    if (res.token) {
+      window.localStorage.setItem("token", res.token);
     }
     return res;
-  }
+  },
 );
 
 export const loginPharmacy = createAsyncThunk("auth/login", async ({ pharmacyName, password }) => {
@@ -84,7 +80,6 @@ const pharmacySlice = createSlice({
         state.pharmacy = null;
         state.isLoading = false;
         state.status = action.payload.message;
-
       })
       .addCase(registratePharmacy.pending, (state) => {
         state.isLoading = true;
@@ -121,13 +116,14 @@ const pharmacySlice = createSlice({
         state.pharmacy = action.payload.pharmacy;
       })
       .addCase(deletePharmacyByName.fulfilled, (state, action) => {
-        state.pharmacies = state.pharmacies.filter((pharmacy) => pharmacy.pharmacyName !== action.payload);
+        state.pharmacies = state.pharmacies.filter(
+          (pharmacy) => pharmacy.pharmacyName !== action.payload,
+        );
         state.status = action.error.message;
-      })
-      
+      });
   },
 });
 
-export const checkIsAuth = (state) => Boolean(state.pharmacy.token)
+export const checkIsAuth = (state) => Boolean(state.pharmacy.token);
 export const { logout } = pharmacySlice.actions;
 export default pharmacySlice.reducer;
