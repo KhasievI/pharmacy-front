@@ -19,12 +19,11 @@ export const Registrate = () => {
   const dispatch = useDispatch()
   const { pharmacy } = useSelector((state) => state.pharmacy)
 
-  console.log(isAuth);
   useEffect(() => {
     if (status) {
       toast(status)
     }
-    if (isAuth) navigate(`/${pharmacy._id}`)
+    if (isAuth) navigate(`/`)
   }, [status, isAuth, navigate, pharmacy])
 
   const handleSubmit = () => {
@@ -38,7 +37,6 @@ export const Registrate = () => {
       data.append('ogrn', ogrn)
       data.append('inn', inn)
       dispatch(registratePharmacy({data}))
-      // console.log(data)
     } catch (error) {
       console.log(error)
     }
@@ -67,16 +65,16 @@ export const Registrate = () => {
           placeholder='Password'
         />
       </label>
-      <label>
+      <label className={styles.Attach}>
         Логотип:
         <input
-          type='file'
+          type='file' 
           className={styles.hidden}
           onChange={(e) => setLogo(e.target.files[0])}
           placeholder='Logo'
         />
          {logo && (
-          <img src={URL.createObjectURL(logo)} alt={logo.name} />
+          <img className={styles.img} src={URL.createObjectURL(logo)} alt={logo.name} />
         )}
       </label>
       <label>

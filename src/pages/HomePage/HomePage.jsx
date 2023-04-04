@@ -15,7 +15,7 @@ console.log(pharmacy);
   return (
     <div className={styles.home_page}>
     {isAuth ? 
-    <Link to={`/${pharmacy._id}`}>
+    <Link to={`/me`}>
       <button>Личный кабинет</button>
       </Link> : <Link to='/login'>
       <button>Войти</button>

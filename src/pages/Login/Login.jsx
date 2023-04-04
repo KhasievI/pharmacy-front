@@ -17,7 +17,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (status) toast(status)
-    if (isAuth) navigate(`/${pharmacy._id}`)
+    if (isAuth) navigate(`/`)
   }, [status, isAuth, navigate, pharmacy])
 
   const handleSubmit = () => {

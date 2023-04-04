@@ -1,5 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const initialState = {
+  pharmacy: {},
+  pharmacies: [],
+  token: window.localStorage.getItem("token") || null,
+  isLoading: false,
+  status: null,
+}
+
 export const authExit = createAsyncThunk("auth/exit", async (_, thunkAPI) => {
   localStorage.removeItem("token");
 });
@@ -21,11 +29,12 @@ export const registratePharmacy = createAsyncThunk(
       }),
     });
     const res = await response.json();
+    console.log(res);
+      if (res.token) {
+      window.localStorage.setItem('token', res.token)
+    }
     if (res.message) {
       return thunkAPI.rejectWithValue(response);
-    }
-    if (res.token) {
-      window.localStorage.setItem("token", res.token);
     }
     return res;
   }
@@ -49,8 +58,8 @@ export const getPharmacies = createAsyncThunk("get/Pharmacies", async () => {
   return await response.json();
 });
 
-export const getPharmacy = createAsyncThunk("get/pharmacy", async (id) => {
-  const response = await fetch(`http://localhost:4141/pharmacy/${id}`);
+export const getPharmacy = createAsyncThunk("get/pharmacy", async () => {
+  const response = await fetch(`http://localhost:4141/me`);
   return await response.json();
 });
 
@@ -61,25 +70,21 @@ export const deletePharmacyByName = createAsyncThunk("delete/pharmacy", async (n
 
 const pharmacySlice = createSlice({
   name: "auth",
-  initialState: {
-    pharmacy: {},
-    pharmacies: [],
-    token: localStorage.getItem("token") || null,
-    isLoading: false,
-    status: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(authExit.pending, (state) => {
+      .addCase(authExit.pending, (state, action) => {
         state.isLoading = true;
         state.status = null;
+        state.status = action.payload.message;
       })
-      .addCase(authExit.fulfilled, (state) => {
+      .addCase(authExit.fulfilled, (state, action) => {
         state.token = null;
         state.pharmacy = null;
         state.isLoading = false;
-        state.status = "success";
+        state.status = action.payload.message;
+
       })
       .addCase(registratePharmacy.pending, (state) => {
         state.isLoading = true;
@@ -89,11 +94,11 @@ const pharmacySlice = createSlice({
         state.pharmacy = action.payload.pharmacy;
         state.token = action.payload.token;
         state.isLoading = false;
-        state.status = "success";
+        state.status = action.payload.message;
       })
       .addCase(registratePharmacy.rejected, (state, action) => {
         state.isLoading = false;
-        state.status = action.error.message;
+        state.status = action.payload.message;
       })
       .addCase(loginPharmacy.pending, (state) => {
         state.isLoading = true;
@@ -103,7 +108,7 @@ const pharmacySlice = createSlice({
         state.pharmacy = action.payload.pharmacy;
         state.token = action.payload.token;
         state.isLoading = false;
-        state.status = "success";
+        state.status = action.payload.message;
       })
       .addCase(loginPharmacy.rejected, (state, action) => {
         state.isLoading = false;
@@ -117,7 +122,9 @@ const pharmacySlice = createSlice({
       })
       .addCase(deletePharmacyByName.fulfilled, (state, action) => {
         state.pharmacies = state.pharmacies.filter((pharmacy) => pharmacy.pharmacyName !== action.payload);
-      });
+        state.status = action.error.message;
+      })
+      
   },
 });
 

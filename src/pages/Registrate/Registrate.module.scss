@@ -26,7 +26,6 @@ input {
   height: 25px;
 }
 
-
 input::placeholder {
   color: #3c3f43;
 }
@@ -63,5 +62,26 @@ input::placeholder {
 
 .link:hover {
   border-bottom: 2px solid #2d2c2c;
+  opacity: 0.5;
+}
+
+.img {
+  width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.Attach {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: #f1ecec;
+  cursor: pointer;
+  margin: 1rem 0;
+  border: 2px dotted;
+  border-radius: 0.5rem;
+  font-size: small;
   opacity: 0.5;
 }
