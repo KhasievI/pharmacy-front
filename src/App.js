@@ -23,7 +23,6 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/me' element={<PersonalArea />} />
