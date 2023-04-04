@@ -37,23 +37,11 @@ export const PersonalArea = () => {
   const categories = useSelector((state) => state.category.categories);
   const { status } = useSelector((state) => state.medicine)
 
-  console.log('status', status);
-
   useEffect(() => {
     if (status) {
       toast(status)
     }
   }, [status])
-
-  console.log('pharmacy', pharmacy);
-
-  useEffect(() => {
-    dispatch(getPharmacy(id))
-  }, [])
-
-  useEffect(() => {
-    dispatch(getPharmacy())
-  }, [dispatch])
 
   useEffect(() => {
     dispatch(getPharmacies())

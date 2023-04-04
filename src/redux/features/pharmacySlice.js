@@ -29,12 +29,8 @@ export const registratePharmacy = createAsyncThunk(
       }),
     });
     const res = await response.json();
-    console.log(res);
       if (res.token) {
       window.localStorage.setItem('token', res.token)
-    }
-    if (res.message) {
-      return thunkAPI.rejectWithValue(response);
     }
     return res;
   }
