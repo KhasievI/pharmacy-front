@@ -113,7 +113,7 @@ export const PersonalArea = () => {
         setPrice('')
         setBarcode('')
         setStorageConditions('')
-        setCountInStock('')
+        setCountInStock(0)
         setCat('')
         setGetMed(false)
         setMedId('')
