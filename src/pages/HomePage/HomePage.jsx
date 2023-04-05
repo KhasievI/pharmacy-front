@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Chatbot from "../../Bot/Chatbot";
+
+
 import styles from "./HomePage.module.scss";
 
 
@@ -8,7 +10,7 @@ export const HomePage = () => {
   return (
     <div className={styles.home_page}>
        <Chatbot/>
-      
+    
     </div>
   );
 };
