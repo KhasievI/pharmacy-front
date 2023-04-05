@@ -13,6 +13,8 @@ import { PersonalArea } from './pages/PersonalArea/PersonalArea'
 import Header from "./components/Header/Header";
 import Footer from './components/Footer/Footer'
 import Menu from "./components/Menu/Menu";
+import SearchBar from './components/SearchBar/SearchBar';
+import AdverSlider from './components/Advertisement/AdverSlider';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +26,9 @@ function App() {
   return (
     <div className={styles.app}>
       <Header/>
+      <SearchBar/>
       <Menu />
+      <AdverSlider/>
       <HomePage />
       <Routes>
         <Route path="/" element={<HomePage />} />
