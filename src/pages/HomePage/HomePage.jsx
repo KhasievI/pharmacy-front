@@ -9,8 +9,7 @@ import styles from "./HomePage.module.scss";
 export const HomePage = () => {
   const isAuth = useSelector(checkIsAuth)
   // const dispatch = useDispatch()
-  const pharmacy = useSelector((state) => state.pharmacy.pharmacy)
-console.log(pharmacy);
+  
 
   return (
     <div className={styles.home_page}>

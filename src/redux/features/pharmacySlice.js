@@ -29,7 +29,7 @@ export const registratePharmacy = createAsyncThunk(
       }),
     });
     const res = await response.json();
-      if (res.token) {
+    if (res.token) {
       window.localStorage.setItem('token', res.token)
     }
     return res;
@@ -55,7 +55,12 @@ export const getPharmacies = createAsyncThunk("get/Pharmacies", async () => {
 });
 
 export const getPharmacy = createAsyncThunk("get/pharmacy", async () => {
-  const response = await fetch(`http://localhost:4141/me`);
+  const response = await fetch(`http://localhost:4141/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+      }
+    });
   return await response.json();
 });
 
@@ -120,7 +125,7 @@ const pharmacySlice = createSlice({
         state.pharmacies = state.pharmacies.filter((pharmacy) => pharmacy.pharmacyName !== action.payload);
         state.status = action.error.message;
       })
-      
+
   },
 });
 
