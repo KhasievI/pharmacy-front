@@ -1,0 +1,34 @@
+.menu {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    width: 100%;
+    height: 75px;
+}
+
+.ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+
+}
+
+a:hover {
+    text-decoration: underline;
+    // font-weight: bold;
+
+}
+
+.blok {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+}
