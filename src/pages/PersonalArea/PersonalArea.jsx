@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+// import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import styles from './PersonalArea.module.scss'
-import { checkIsAuth } from '../../redux/features/pharmacySlice'
-import { addMedicine, deleteMedicine, updateMedicine } from '../../redux/features/medicineSlice'
+// import { checkIsAuth } from '../../redux/features/pharmacySlice'
+import { fetchMedicineById, addMedicine, deleteMedicine, updateMedicine } from '../../redux/features/medicineSlice'
 import { fetchCategories } from '../../redux/features/categorySlice'
-import { getPharmacies } from '../../redux/features/pharmacySlice'
-import { getPharmacy } from '../../redux/features/pharmacySlice'
+
 
 export const PersonalArea = () => {
-  const [med, setMed] = useState('-')
-  const [pharmacyName, setPharmName] = useState('')
-  const [address, setAddress] = useState('')
+  const [selection, setSelection] = useState('-')
   const [img, setImg] = useState('')
   const [name, setName] = useState('')
   const [weight, setWeight] = useState('')
@@ -24,20 +21,19 @@ export const PersonalArea = () => {
   const [price, setPrice] = useState('')
   const [barcode, setBarcode] = useState('')
   const [storageConditions, setStorageConditions] = useState('')
-  const [countInStock, setCountInStock] = useState('')
+  const [countInStock, setCountInStock] = useState(0)
   const [cat, setCat] = useState('-')
 
   const [medId, setMedId] = useState('')
+  const [getMed, setGetMed] = useState(false)
 
-  const { id } = useParams();
   const dispatch = useDispatch()
 
   const pharmacy = useSelector((state) => state.pharmacy.pharmacy)
-  const pharmacies = useSelector((state) => state.pharmacy.pharmacies)
   const categories = useSelector((state) => state.category.categories);
-  const { status } = useSelector((state) => state.medicine)
+  const { status, medicine } = useSelector((state) => state.medicine)
 
-  console.log('status', status);
+  console.log('medicine', medicine);
 
   useEffect(() => {
     if (status) {
@@ -45,29 +41,15 @@ export const PersonalArea = () => {
     }
   }, [status])
 
-  console.log('pharmacy', pharmacy);
-
-  useEffect(() => {
-    dispatch(getPharmacy(id))
-  }, [])
-
-  useEffect(() => {
-    dispatch(getPharmacy())
-  }, [dispatch])
-
-  useEffect(() => {
-    dispatch(getPharmacies())
-  }, [])
-
   useEffect(() => {
     dispatch(fetchCategories())
-  }, [])
+  }, [selection])
 
   const handleSubmit = () => {
-    if (med === 'Add') {
+    if (selection === 'Add') {
       const data = new FormData()
-      data.append('pharmacyName', pharmacyName)
-      data.append('address', address)
+      data.append('pharmacyName', pharmacy.pharmacyName)
+      data.append('address', pharmacy.address)
       data.append('img', img)
       data.append('name', name)
       data.append('weight', weight)
@@ -82,50 +64,85 @@ export const PersonalArea = () => {
       data.append('countInStock', countInStock)
       data.append('cat', cat)
       dispatch(addMedicine({ data }))
-    } else if (med === 'Delete') {
+    } else if (selection === 'Delete') {
       dispatch(deleteMedicine(medId))
-    } else if (med === 'Update') {
-      const data = new FormData()
-      data.append('pharmacyName', pharmacyName)
-      data.append('address', address)
-      data.append('img', img)
-      data.append('name', name)
-      data.append('weight', weight)
-      data.append('methodOfAdministration', methodOfAdministration)
-      data.append('typeOfDosageForm', typeOfDosageForm)
-      data.append('dateOfManufacture', dateOfManufacture)
-      data.append('expirationDate', expirationDate)
-      data.append('series', series)
-      data.append('price', price)
-      data.append('barcode', barcode)
-      data.append('storageConditions', storageConditions)
-      data.append('countInStock', countInStock)
-      data.append('cat', cat)
-      dispatch(updateMedicine({ medId, data }))
+    } else if (selection === 'Update') {
+      if (!getMed) {
+        dispatch(fetchMedicineById(medId))
+        setImg(medicine.img)
+        setName(medicine.medName)
+        setWeight(medicine.weight)
+        setMethodOfAdministration(medicine.methodOfAdministrationAndDose)
+        setTypeOfDosageForm(medicine.typeOfDosageForm)
+        setDateOfManufacture(medicine.dateOfManufacture)
+        setExpirationDate(medicine.expirationDate)
+        setSeries(medicine.series)
+        setPrice(medicine.price)
+        setBarcode(medicine.barcode)
+        setStorageConditions(medicine.storageConditions)
+        setCountInStock(medicine.countInStock)
+        setCat(medicine.category)
+        setGetMed(true)
+      } 
+      if (getMed) {
+        const data = new FormData()
+        data.append('pharmacyName', pharmacy.pharmacyName)
+        data.append('address', pharmacy.address)
+        data.append('img', img)
+        data.append('name', name)
+        data.append('weight', weight)
+        data.append('methodOfAdministration', methodOfAdministration)
+        data.append('typeOfDosageForm', typeOfDosageForm)
+        data.append('dateOfManufacture', dateOfManufacture)
+        data.append('expirationDate', expirationDate)
+        data.append('series', series)
+        data.append('price', price)
+        data.append('barcode', barcode)
+        data.append('storageConditions', storageConditions)
+        data.append('countInStock', countInStock)
+        data.append('cat', cat)
+        dispatch(updateMedicine({ medId, data }))
+        setImg('')
+        setName('')
+        setWeight('')
+        setMethodOfAdministration('')
+        setTypeOfDosageForm('')
+        setDateOfManufacture('')
+        setExpirationDate('')
+        setSeries('')
+        setPrice('')
+        setBarcode('')
+        setStorageConditions('')
+        setCountInStock(0)
+        setCat('')
+        setGetMed(false)
+        setMedId('')
+      }
     }
   }
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-        <select className={styles.action_choice} value={med} onChange={(e) => { setMed(e.target.value) }}>
+        <select className={styles.action_choice} value={selection} onChange={(e) => { setSelection(e.target.value) }}>
           <option className={styles.action_choice_el}> - </option>
           <option className={styles.action_choice_el}>Add</option>
           <option className={styles.action_choice_el}>Delete</option>
           <option className={styles.action_choice_el}>Update</option>
         </select>
         <input
+          className={styles.inputId}
           type='text'
-          placeholder='Введите текст'
-          value={medId} onChange={(e) => { setMedId(e.target.value) }}
+          placeholder='Введите ID товара'
+          value={medId} onChange={(e) => setMedId(e.target.value)}
         />
         <button type='submit'
           onClick={handleSubmit} className={styles.btn}>Отправить</button>
       </form>
-      {med === 'Add' && (
+      {selection === 'Add' && (
         <div className={styles.medicine}>
-          <input value={pharmacyName} onChange={(e) => setPharmName(e.target.value)} />
-          <input value={address} onChange={(e) => setAddress(e.target.value)} />
+          <input disabled={true} value={pharmacy.pharmacyName} />
+          <input disabled={true} value={pharmacy.address} />
           <input type='text' name='img' placeholder='File' value={img} onChange={(e) => setImg(e.target.value)} />
           <input type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
           <input type='text' placeholder='Weight' value={weight} onChange={(e) => setWeight(e.target.value)} />
@@ -145,16 +162,17 @@ export const PersonalArea = () => {
           <input type='number' placeholder='Count in stock'
             value={countInStock} onChange={(e) => setCountInStock(e.target.value)} />
           <select className={styles.cat} value={cat} onChange={(e) => { setCat(e.target.value) }}>
+            <option>-</option>
             {categories.map(category => {
               return <option key={category._id}>{category.name}</option>
             })}
           </select>
         </div>
       )}
-      {med === 'Update' && (
+      {selection === 'Update' && (
         <div className={styles.medicine}>
-          <input value={pharmacyName} onChange={(e) => setPharmName(e.target.value)} />
-          <input value={address} onChange={(e) => setAddress(e.target.value)} />
+          <input disabled={true} value={pharmacy.pharmacyName} />
+          <input disabled={true} value={pharmacy.address} />
           <input type='text' name='img' placeholder='File' value={img} onChange={(e) => setImg(e.target.value)} />
           <input type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
           <input type='text' placeholder='Weight' value={weight} onChange={(e) => setWeight(e.target.value)} />
@@ -174,6 +192,7 @@ export const PersonalArea = () => {
           <input type='number' placeholder='Count in stock'
             value={countInStock} onChange={(e) => setCountInStock(e.target.value)} />
           <select className={styles.cat} value={cat} onChange={(e) => { setCat(e.target.value) }}>
+            <option>-</option>
             {categories.map(category => {
               return <option key={category._id}>{category.name}</option>
             })}

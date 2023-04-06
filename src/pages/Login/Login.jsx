@@ -27,46 +27,49 @@ export const Login = () => {
       console.log(error)
     }
   }
+  
   return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-    >
-      <h1>Авторизация</h1>
-      <label>
-        Username:
-        <input
-          type='text'
-          value={pharmacyName}
-          onChange={(e) => setPharmacyName(e.target.value)}
-          placeholder='Pharmacy'
-        />
-      </label>
+    <div className={styles.wrapper}>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+      >
+        <h1>Авторизация</h1>
+        <label>
+          Username:
+          <input
+            type='text'
+            value={pharmacyName}
+            onChange={(e) => setPharmacyName(e.target.value)}
+            placeholder='Pharmacy'
+          />
+        </label>
 
-      <label>
-        Password:
-        <input
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder='Password'
-        />
-      </label>
+        <label>
+          Password:
+          <input
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder='Password'
+          />
+        </label>
 
-      <div className={styles.divBtns}>
-        <button
-          type='submit'
-          onClick={handleSubmit}
-          className={styles.login}
-        >
-          Войти
-        </button>
-        
-        <Link className={styles.link}
-          to='/registrate'
-        >
-          Нет аккаунта ?
-        </Link>
-      </div>
-    </form>
+        <div className={styles.divBtns}>
+          <button
+            type='submit'
+            onClick={handleSubmit}
+            className={styles.login}
+          >
+            Войти
+          </button>
+
+          <Link className={styles.link}
+            to='/registrate'
+          >
+            Нет аккаунта ?
+          </Link>
+        </div>
+      </form>
+    </div>
   )
 }

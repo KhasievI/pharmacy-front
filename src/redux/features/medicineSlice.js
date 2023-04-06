@@ -9,8 +9,8 @@ const initialState = {
 
 export const fetchMedicines = createAsyncThunk("fetch/medicines", async (_, thunkAPI) => {
   try {
-    const res = await fetch("http://localhost:4141/med");
-    return await res.json();
+    const res = await fetch("http://localhost:4141/meds");
+    return res.json();
   } catch (error) {
     return error;
   }
@@ -21,7 +21,7 @@ export const fetchMedicineById = createAsyncThunk(
   async (id, thunkApi) => {
     try {
       const res = await fetch(`http://localhost:4141/med/${id}`);
-      return await res.json();
+      return res.json();
     } catch (err) {
       return thunkApi.rejectWithValue(err);
     }
@@ -98,6 +98,7 @@ export const updateMedicine = createAsyncThunk("update/medicine", async ({medId,
         category: data.get('cat'),
       }),
     });
+    console.log(res.json());
     return await res.json();
   } catch (error) {
     return error;
@@ -130,7 +131,7 @@ export const medicineSlice = createSlice({
       })
       .addCase(fetchMedicineById.rejected, (state, action) => {
         state.error = action.error.message;
-        state.status = "failed";
+        // state.status = "failed";
       })
       .addCase(addMedicine.pending, (state) => {
         // state.status = "loading";

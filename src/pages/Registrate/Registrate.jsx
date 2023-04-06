@@ -9,7 +9,7 @@ export const Registrate = () => {
   const [pharmacyName, setPharmacyName] = useState('')
   const [password, setPassword] = useState('')
   const [address, setAddress] = useState('')
-  const [logo, setLogo] = useState('')
+  const [image, setImage] = useState('')
   const [license, setLicense] = useState('')
   const [ogrn, setOgrn] = useState('')
   const [inn, setInn] = useState('')
@@ -31,104 +31,106 @@ export const Registrate = () => {
       const data = new FormData()
       data.append('pharmacyName', pharmacyName)
       data.append('password', password)
-      data.append('logo', logo)
+      data.append('image', image)
       data.append('address', address)
       data.append('license', license)
       data.append('ogrn', ogrn)
       data.append('inn', inn)
-      dispatch(registratePharmacy({data}))
+      dispatch(registratePharmacy({ data }))
     } catch (error) {
       console.log(error)
     }
   }
 
   return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-    >
-      <h1>Регистрация</h1>
-      <label>
-        Наименование организации:
-        <input
-          type='text'
-          value={pharmacyName}
-          onChange={(e) => setPharmacyName(e.target.value)}
-          placeholder='Pharmacy'
-        />
-      </label>
-      <label>
-        Пароль:
-        <input
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder='Password'
-        />
-      </label>
-      <label className={styles.Attach}>
-        Логотип:
-        <input
-          type='file' 
-          className={styles.hidden}
-          onChange={(e) => setLogo(e.target.files[0])}
-          placeholder='Logo'
-        />
-         {logo && (
-          <img className={styles.img} src={URL.createObjectURL(logo)} alt={logo.name} />
-        )}
-      </label>
-      <label>
-        Адрес:
-        <input
-          type='text'
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder='Address'
-        />
-      </label>
-      <label>
-        Лицензия:
-        <input
-          type='text'
-          value={license}
-          onChange={(e) => setLicense(e.target.value)}
-          placeholder='License'
-        />
-      </label>
-      <label>
-        ОГРН:
-        <input
-          type='text'
-          value={ogrn}
-          onChange={(e) => setOgrn(e.target.value)}
-          placeholder='OGRN'
-        />
-      </label>
-      <label>
-        ИНН:
-        <input
-          type='text'
-          value={inn}
-          onChange={(e) => setInn(e.target.value)}
-          placeholder='INN'
-        />
-      </label>
-      <div className={styles.divBtns}>
+    <div className={styles.wrapper}>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+      >
+      <div className={styles.title}><h1>Регистрация</h1></div>
+        <label>
+          Наименование организации:
+          <input
+            type='text'
+            value={pharmacyName}
+            onChange={(e) => setPharmacyName(e.target.value)}
+            placeholder='Pharmacy'
+          />
+        </label>
+        <label>
+          Пароль:
+          <input
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder='Password'
+          />
+        </label>
+        <span>Добавить файл:</span>
+        <label className={styles.Attach}>
+          <input
+            type='file'
+            className={styles.hidden}
+            onChange={(e) => setImage(e.target.files[0])}
+            placeholder='Logo'
+          />
+          {image && (
+            <img className={styles.img} src={URL.createObjectURL(image)} alt={image.name} />
+          )}
+        </label>
+        <label>
+          Адрес:
+          <input
+            type='text'
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder='Address'
+          />
+        </label>
+        <label>
+          Лицензия:
+          <input
+            type='text'
+            value={license}
+            onChange={(e) => setLicense(e.target.value)}
+            placeholder='License'
+          />
+        </label>
+        <label>
+          ОГРН:
+          <input
+            type='text'
+            value={ogrn}
+            onChange={(e) => setOgrn(e.target.value)}
+            placeholder='OGRN'
+          />
+        </label>
+        <label>
+          ИНН:
+          <input
+            type='text'
+            value={inn}
+            onChange={(e) => setInn(e.target.value)}
+            placeholder='INN'
+          />
+        </label>
+        <div className={styles.divBtns}>
 
-        <button
-          type='submit'
-          onClick={handleSubmit}
-          className={styles.login}
-        >
-          Подтвердить
-        </button>
-        <Link
-          to='/login'
-          className={styles.link}
-        >
-          Уже зарегистрированы ?
-        </Link>
-      </div>
-    </form>
+          <button
+            type='submit'
+            onClick={handleSubmit}
+            className={styles.login}
+          >
+            Подтвердить
+          </button>
+          <Link
+            to='/login'
+            className={styles.link}
+          >
+            Уже зарегистрированы ?
+          </Link>
+        </div>
+      </form>
+    </div>
   )
 }
