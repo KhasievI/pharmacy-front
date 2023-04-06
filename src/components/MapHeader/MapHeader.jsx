@@ -3,8 +3,7 @@ import styles from "./MapHeader.module.scss";
 
 const MapHeader = () => {
   const [active, setActive] = useState(false);
-  console.log(active);
-  // geolocation.getCurrentPosition()
+    // geolocation.getCurrentPosition()
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>

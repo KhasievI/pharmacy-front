@@ -18,7 +18,6 @@ const List = () => {
   if (!medicines) {
     return "..";
   }
-  console.log(medicines);
   return (
     <div className={styles.list}>
       {medicines.map((medicine) => {

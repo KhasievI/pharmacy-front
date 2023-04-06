@@ -16,6 +16,7 @@ import Menu from "./components/Menu/Menu";
 import SearchBar from "./components/SearchBar/SearchBar";
 import AdverSlider from "./components/Advertisement/AdverSlider";
 import MapHeader from "./components/MapHeader/MapHeader";
+import ListPage from "./pages/ListPage/ListPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
       <HomePage />
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/items' element={<ListPage />} />
         <Route path='/me' element={<PersonalArea />} />
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />
