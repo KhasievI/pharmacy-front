@@ -8,13 +8,12 @@ const Footer = () => {
 
         <div className={styles.logo}>
           <div>
-            <img src="apteka12.png" alt="" />
-            <b>АПТЕКА</b>
+            <img src="logoBlack.png" alt="" />
+            {/* <b>АПТЕКА</b> */}
           </div>
-          <div>
-            <a href="tel:+74950000000">
-              <span>Персональные консультации и помощь:</span>
-              <span>{' '}8(499)390-49-16</span>
+          {/* <div className={styles.title}>
+            <a href="tel:7(499)390-49-16">
+              <div className={styles.contact}>Персональные консультации и помощь: <h4>{' '}8(499)390-49-16</h4></div>
               <br />
             </a>
             <a href="mailto:info@aveapteka.ru">
@@ -22,7 +21,7 @@ const Footer = () => {
             </a>
             <br />
             <div>Круглосуточно</div>
-          </div>
+          </div> */}
         </div>
 
         <ul className={styles.menu}>

@@ -1,22 +1,22 @@
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { getPharmacy } from "./redux/features/pharmacySlice";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import styles from "./app.scss";
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Chatbot from "./components/Bot/Chatbot";
+import styles from './app.scss'
 
-import { Registrate } from "./pages/Registrate/Registrate";
-import { Login } from "./pages/Login/Login";
-import { HomePage } from "./pages/HomePage/HomePage";
-import { PersonalArea } from "./pages/PersonalArea/PersonalArea";
+import { Registrate } from './pages/Registrate/Registrate'
+import { Login } from './pages/Login/Login'
+import { HomePage } from './pages/HomePage/HomePage'
+import { PersonalArea } from './pages/PersonalArea/PersonalArea'
+import { AboutUs } from './pages/AboutUs/AboutUs';
+import { Category } from './pages/Category/Category';
 import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+import Footer from './components/Footer/Footer'
 import Menu from "./components/Menu/Menu";
-import SearchBar from "./components/SearchBar/SearchBar";
-import AdverSlider from "./components/Advertisement/AdverSlider";
-import MapHeader from "./components/MapHeader/MapHeader";
-import ListPage from "./pages/ListPage/ListPage";
+import SearchBar from './components/SearchBar/SearchBar';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,24 +26,23 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className={styles.app}>
-      <MapHeader />
-      <Header />
-      <SearchBar />
+    <div className={styles.App}>
+      <Header/>
+      <SearchBar/>
       <Menu />
-      <AdverSlider />
-      <HomePage />
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/items' element={<ListPage />} />
-        <Route path='/me' element={<PersonalArea />} />
-        <Route path='/registrate' element={<Registrate />} />
-        <Route path='/login' element={<Login />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/me" element={<PersonalArea />} />
+        <Route path="/registrate" element={<Registrate />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/us" element={<AboutUs />} />
+        <Route path="/cat" element={<Category />} />
       </Routes>
+       <Chatbot className={styles.bot}/>
       <Footer />
-      <ToastContainer position='bottom-right' />
+      <ToastContainer position="top-right" />
     </div>
-  );
+  )
 }
 
 export default App;
