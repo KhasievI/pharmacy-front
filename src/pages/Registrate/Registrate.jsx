@@ -9,7 +9,7 @@ export const Registrate = () => {
   const [pharmacyName, setPharmacyName] = useState('')
   const [password, setPassword] = useState('')
   const [address, setAddress] = useState('')
-  const [image, setImage] = useState('')
+  const [logo, setLogo] = useState()
   const [license, setLicense] = useState('')
   const [ogrn, setOgrn] = useState('')
   const [inn, setInn] = useState('')
@@ -31,12 +31,12 @@ export const Registrate = () => {
       const data = new FormData()
       data.append('pharmacyName', pharmacyName)
       data.append('password', password)
-      data.append('image', image)
+      data.append('logo', logo)
       data.append('address', address)
       data.append('license', license)
       data.append('ogrn', ogrn)
       data.append('inn', inn)
-      dispatch(registratePharmacy({ data }))
+      dispatch(registratePharmacy( data ))
     } catch (error) {
       console.log(error)
     }
@@ -71,11 +71,11 @@ export const Registrate = () => {
           <input
             type='file'
             className={styles.hidden}
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => setLogo(e.target.files[0])}
             placeholder='Logo'
           />
-          {image && (
-            <img className={styles.img} src={URL.createObjectURL(image)} alt={image.name} />
+          {logo && (
+            <img className={styles.img} src={URL.createObjectURL(logo)} alt={logo.name} />
           )}
         </label>
         <label>

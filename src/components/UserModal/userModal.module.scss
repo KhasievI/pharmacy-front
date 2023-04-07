@@ -1,0 +1,32 @@
+.userModal {
+  position: absolute;
+  min-width: 7%;
+  height: fit-content;
+  z-index: 30;
+  top: 7rem;
+  right: 2%;
+  background-color: rgb(70, 65, 65);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 80%;
+  color: white;
+  .line {
+    margin: 2px 0;
+    width: 100%;
+  }
+  .pharmacyName {
+    font-family: "Courier New", Courier, monospace;
+    padding: 0.5rem;
+  }
+  
+  .profile {
+    margin: 3%;
+    cursor: pointer;
+  }
+  .logout {
+    margin: 4%;
+    cursor: pointer;
+  }
+}
