@@ -6,7 +6,7 @@ const initialState = {
   token: window.localStorage.getItem("token") || null,
   isLoading: false,
   status: null,
-}
+};
 
 export const registratePharmacy = createAsyncThunk(
   "auth/registrate",
@@ -22,7 +22,7 @@ export const registratePharmacy = createAsyncThunk(
       window.localStorage.setItem('token', res.token)
     }
     return res;
-  }
+  },
 );
 
 export const loginPharmacy = createAsyncThunk("auth/login", async ({ pharmacyName, password }) => {
@@ -107,13 +107,15 @@ const pharmacySlice = createSlice({
         state.pharmacy = action.payload.pharmacy;
       })
       .addCase(deletePharmacyByName.fulfilled, (state, action) => {
-        state.pharmacies = state.pharmacies.filter((pharmacy) => pharmacy.pharmacyName !== action.payload);
+        state.pharmacies = state.pharmacies.filter(
+          (pharmacy) => pharmacy.pharmacyName !== action.payload,
+        );
         state.status = action.error.message;
       })
 
   },
 });
 
-export const checkIsAuth = (state) => Boolean(state.pharmacy.token)
+export const checkIsAuth = (state) => Boolean(state.pharmacy.token);
 export const { logout } = pharmacySlice.actions;
 export default pharmacySlice.reducer;
