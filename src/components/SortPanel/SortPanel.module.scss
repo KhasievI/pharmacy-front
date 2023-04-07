@@ -1,4 +1,38 @@
 .root {
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  background: #f2f2f2;
+  padding: 40px;
+  margin: 20px;
+  .li {
+    .chek:not(:disabled):active + label::before {
+      background-color: red;
+    }
+  }
+  .range {
+    display: block;
+    width: 300px;
+  }
+  .list {
+    background: #f2f2f2;
+    border: none;
+  }
+  .select {
+    width: 200px;
+    height: 30px;
+    background: #f2f2f2;
+    border: 1px solid gray;
+    transition: 200ms;
+  }
   .labels {
     display: flex;
     justify-content: space-between;
@@ -21,7 +55,8 @@
 
       input {
         border: none;
-        background: white;
+        background: #f2f2f2;
+        width: 90px;
       }
     }
   }

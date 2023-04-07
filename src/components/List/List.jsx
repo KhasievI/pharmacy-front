@@ -14,7 +14,11 @@ const List = () => {
   useEffect(() => {
     dispatch(fetchMedicines());
   }, []);
-  const medicines = useSelector((state) => state.medicine.medicines);
+  const medicines = useSelector((state) =>
+    state.medicine.medicines.filter((med) => {
+      // return console.log(med);
+    }),
+  );
   if (!medicines) {
     return "..";
   }
