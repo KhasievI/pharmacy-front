@@ -8,28 +8,17 @@ const initialState = {
   status: null,
 }
 
-export const authExit = createAsyncThunk("auth/exit", async (_, thunkAPI) => {
-  localStorage.removeItem("token");
-});
-
 export const registratePharmacy = createAsyncThunk(
   "auth/registrate",
-  async ({ data }, thunkAPI) => {
+  async ( data , thunkAPI) => {
     const response = await fetch("http://localhost:4141/registrate", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        pharmacyName: data.get('pharmacyName'),
-        password: data.get('password'),
-        logo: data.get('logo'),
-        address: data.get('address'),
-        license: data.get('license'),
-        ogrn: data.get('ogrn'),
-        inn: data.get('inn'),
-      }),
+      body: data
     });
-    const res = await response.json();
-    if (res.token) {
+    console.log(data.get('logo'));
+      const res = await response.json();
+      console.log(res);
+      if (res.token) {
       window.localStorage.setItem('token', res.token)
     }
     return res;
@@ -72,21 +61,17 @@ export const deletePharmacyByName = createAsyncThunk("delete/pharmacy", async (n
 const pharmacySlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.pharmacy = null;
+      state.pharmacies = [];
+      state.token = null;
+      state.isLoading = false;
+      state.status = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(authExit.pending, (state, action) => {
-        state.isLoading = true;
-        state.status = null;
-        state.status = action.payload.message;
-      })
-      .addCase(authExit.fulfilled, (state, action) => {
-        state.token = null;
-        state.pharmacy = null;
-        state.isLoading = false;
-        state.status = action.payload.message;
-
-      })
       .addCase(registratePharmacy.pending, (state) => {
         state.isLoading = true;
         state.status = null;

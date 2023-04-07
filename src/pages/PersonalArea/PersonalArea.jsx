@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-// import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import styles from './PersonalArea.module.scss'
-// import { checkIsAuth } from '../../redux/features/pharmacySlice'
 import { fetchMedicineById, addMedicine, deleteMedicine, updateMedicine } from '../../redux/features/medicineSlice'
 import { fetchCategories } from '../../redux/features/categorySlice'
 
@@ -21,19 +19,16 @@ export const PersonalArea = () => {
   const [price, setPrice] = useState('')
   const [barcode, setBarcode] = useState('')
   const [storageConditions, setStorageConditions] = useState('')
-  const [countInStock, setCountInStock] = useState(0)
+  const [countInStock, setCountInStock] = useState()
   const [cat, setCat] = useState('-')
 
   const [medId, setMedId] = useState('')
   const [getMed, setGetMed] = useState(false)
 
-  const dispatch = useDispatch()
-
   const pharmacy = useSelector((state) => state.pharmacy.pharmacy)
   const categories = useSelector((state) => state.category.categories);
   const { status, medicine } = useSelector((state) => state.medicine)
-
-  console.log('medicine', medicine);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (status) {
@@ -43,7 +38,7 @@ export const PersonalArea = () => {
 
   useEffect(() => {
     dispatch(fetchCategories())
-  }, [selection])
+  }, [])
 
   const handleSubmit = () => {
     if (selection === 'Add') {
@@ -113,7 +108,7 @@ export const PersonalArea = () => {
         setPrice('')
         setBarcode('')
         setStorageConditions('')
-        setCountInStock(0)
+        setCountInStock()
         setCat('')
         setGetMed(false)
         setMedId('')
@@ -143,7 +138,19 @@ export const PersonalArea = () => {
         <div className={styles.medicine}>
           <input disabled={true} value={pharmacy.pharmacyName} />
           <input disabled={true} value={pharmacy.address} />
-          <input type='text' name='img' placeholder='File' value={img} onChange={(e) => setImg(e.target.value)} />
+
+          <label className={styles.Attach}>
+          <input
+            type='file'
+            className={styles.hidden}
+            onChange={(e) => setImg(e.target.files[0])}
+            placeholder='Logo'
+          />
+          {img && (
+            <img className={styles.img} src={URL.createObjectURL(img)} alt={img.name} />
+          )}
+        </label>
+
           <input type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
           <input type='text' placeholder='Weight' value={weight} onChange={(e) => setWeight(e.target.value)} />
           <input type='text' placeholder='Method of administration and dose'
