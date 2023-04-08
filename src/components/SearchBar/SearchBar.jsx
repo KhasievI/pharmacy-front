@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import styles from "./SearchBar.module.css";
+import styles from "./SearchBar.module.scss";
 import { checkIsAuth } from '../../redux/features/pharmacySlice'
 import UserModal from "../UserModal/UserModal.jsx";
+import Basket from "../Basket/Basket";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [userModal, setUserModal] = useState(false)
+  const [orderModal, setOrderModal] = useState(false)
   const navigate = useNavigate();
   const isAuth = useSelector(checkIsAuth)
   const inputRef = React.useRef()
@@ -21,6 +23,10 @@ const SearchBar = () => {
   const handleClear = () => {
     setSearch('')
     inputRef.current.focus()
+  }
+
+  const handleOrder = () => {
+    setOrderModal(!orderModal)
   }
 
   return (
@@ -42,12 +48,15 @@ const SearchBar = () => {
           {/* <button className={styles.searchBtn}>Найти</button> */}
         </div>
       </div>
+      <Basket />
+      {!isAuth ? (
       <div className={styles.favorite}>
         <div className={styles.favLogo}>
           <img src="favLogo.png" alt="" />
         </div>
         Избранное
-      </div>
+      </div>) :
+      (<button onClick={() => setOrderModal(true)} className={styles.order}>Заказ</button>)}
       {isAuth ? (
         <>
           <div className={styles.profLogo}>

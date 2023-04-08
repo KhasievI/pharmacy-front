@@ -34,6 +34,9 @@ export const addMedicine = createAsyncThunk(
     try {
       const medicine = await fetch("http://localhost:4141/med", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           pharmacyName: data.get('pharmacyName'),
           address: data.get('address'),
@@ -74,6 +77,9 @@ export const updateMedicine = createAsyncThunk("update/medicine", async ({medId,
   try {
     const res = await fetch(`http://localhost:4141/med/${medId}`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         pharmacyName: data.get('pharmacyName'),
         address: data.get('address'),

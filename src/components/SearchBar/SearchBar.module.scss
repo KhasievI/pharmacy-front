@@ -166,3 +166,15 @@
   right: 2px;
   top: 7px;
 }
+
+.order {
+  font-size: 18px;
+  display: flex;
+  height: 25px;
+  cursor: pointer;
+  border: none;
+  background: white;
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -138,18 +138,13 @@ export const PersonalArea = () => {
         <div className={styles.medicine}>
           <input disabled={true} value={pharmacy.pharmacyName} />
           <input disabled={true} value={pharmacy.address} />
-
-          <label className={styles.Attach}>
           <input
-            type='file'
+            type='text'
             className={styles.hidden}
-            onChange={(e) => setImg(e.target.files[0])}
-            placeholder='Logo'
+            onChange={(e) => setImg(e.target.value)}
+            placeholder='Image'
           />
-          {img && (
-            <img className={styles.img} src={URL.createObjectURL(img)} alt={img.name} />
-          )}
-        </label>
+        
 
           <input type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
           <input type='text' placeholder='Weight' value={weight} onChange={(e) => setWeight(e.target.value)} />
@@ -180,7 +175,7 @@ export const PersonalArea = () => {
         <div className={styles.medicine}>
           <input disabled={true} value={pharmacy.pharmacyName} />
           <input disabled={true} value={pharmacy.address} />
-          <input type='text' name='img' placeholder='File' value={img} onChange={(e) => setImg(e.target.value)} />
+          <input type='text' name='img' placeholder='Image' value={img} onChange={(e) => setImg(e.target.value)} />
           <input type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
           <input type='text' placeholder='Weight' value={weight} onChange={(e) => setWeight(e.target.value)} />
           <input type='text' placeholder='Method of administration and dose'
