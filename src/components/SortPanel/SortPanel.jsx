@@ -1,35 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../../redux/features/categorySlice";
-import { getPharmacies } from "../../redux/features/pharmacySlice";
+import { fetchCategories, switchCategory } from "../../redux/features/categorySlice";
+import { getPharmacies, switchPharmacy, switchPharmasy } from "../../redux/features/pharmacySlice";
 import styles from "./SortPanel.module.scss";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import { switchTypeDosage } from "../../redux/features/medicineSlice";
 
-const medForms = [
-  "капли",
-  "настойка",
-  "настои",
-  "сироп",
-  "суспензия",
-  "эмульсия",
-  "капсула",
-  "таблетка",
-  "порошки",
-  "гранулы",
-  "драже",
-  "карамель",
-  "карандаш",
-  "мазь",
-  "гель",
-  "суппозитории",
-  "паста",
-  "крем",
-  "аэрозоли",
-];
-
-const SortPanel = () => {
+const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategory }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -38,17 +17,22 @@ const SortPanel = () => {
 
   const pharmacies = useSelector((state) => state.pharmacy.pharmacies.pharmacies);
   const categories = useSelector((state) => state.category.categories);
+  const typesDosage = useSelector((state) => state.medicine.typeDosage);
+  console.log(typesDosage);
+  const handleCategory = (value) => {
+    dispatch(switchCategory(value));
+  };
 
-  const [value, setValue] = React.useState([0, 9999]);
-  const [category, setCategory] = React.useState("");
-  console.log("sdas", categories);
-  const handleCat = (value) => {
-    setCategory(value);
-    console.log(value);
+  const handleTypeDosage = (value) => {
+    dispatch(switchTypeDosage(value));
+  };
+
+  const handlePharmacies = (value) => {
+    dispatch(switchPharmacy(value));
   };
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValuePrice(newValue);
   };
 
   function valuetext(value) {
@@ -63,12 +47,12 @@ const SortPanel = () => {
     <div className={styles.root}>
       <div className={styles.wrapper}>
         <div className={styles.price}>
-          <h3 className={styles.title}>Розничная цена</h3>
+          <h2>Розничная цена</h2>
           <div className={styles.range}>
             <Box sx={{ width: 300 }}>
               <Slider
                 getAriaLabel={() => "Temperature range"}
-                value={value}
+                value={valuePrice}
                 max={9999}
                 min={0}
                 onChange={handleChange}
@@ -82,7 +66,7 @@ const SortPanel = () => {
                 <span>от</span>
                 <input
                   type='number'
-                  value={value[0]}
+                  value={valuePrice[0]}
                   max={9999}
                   min={0}
                   id='input-2'
@@ -94,7 +78,7 @@ const SortPanel = () => {
                 <span>до</span>
                 <input
                   type='number'
-                  value={value[1]}
+                  value={valuePrice[1]}
                   max={9999}
                   min={0}
                   id='input-2'
@@ -105,32 +89,29 @@ const SortPanel = () => {
             </div>
           </div>
         </div>
-        <div className={styles.pharmasy}>
-          <h3>Категории</h3>
-          <select className={styles.select}>
+        <div className={styles.category}>
+          <h2 className={styles.title}>Категория</h2>
+          <ul className={styles.list}>
             {categories &&
               categories.map((cat) => {
                 return (
-                  <option className={styles.li}>
-                    <input
-                      onChange={(e) => handleCat(e.targer.value)}
-                      className={styles.chek}
-                      type='checkbox'
-                    />
+                  <div key={cat._id} onClick={() => handleCategory(cat.name)} className={styles.li}>
                     {cat.name}
-                  </option>
+                  </div>
                 );
               })}
-          </select>
+          </ul>
         </div>
         <div className={styles.pharmasy}>
-          <h3>Аптека</h3>
+          <h2 className={styles.title}>Аптека</h2>
           <ul className={styles.list}>
             {pharmacies &&
               pharmacies.map((pharmacy) => {
                 return (
-                  <div className={styles.li}>
-                    <input className={styles.chek} type='checkbox' />
+                  <div
+                    onClick={() => handlePharmacies(pharmacy.pharmacyName)}
+                    key={pharmacy._id}
+                    className={styles.li}>
                     {pharmacy.pharmacyName}
                   </div>
                 );
@@ -138,12 +119,11 @@ const SortPanel = () => {
           </ul>
         </div>
         <div className={styles.tablets_type}>
-          <h3>Лекарственная форма</h3>
-          <ul>
-            {medForms.map((form) => {
+          <h2 className={styles.title}>Лекарственная форма</h2>
+          <ul className={styles.list}>
+            {typesDosage.map((form, i) => {
               return (
-                <div className={styles.li}>
-                  <input className={styles.chek} type='checkbox' />
+                <div onClick={() => handleTypeDosage(form)} key={i} className={styles.li}>
                   {form}
                 </div>
               );
