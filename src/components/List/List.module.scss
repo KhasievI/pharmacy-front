@@ -78,6 +78,12 @@
         padding-left: 90px;
         font-size: 19px;
         font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        &:hover {
+          color: white;
+        }
       }
     }
     .card_title {

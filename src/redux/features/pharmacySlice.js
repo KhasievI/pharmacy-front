@@ -8,15 +8,12 @@ const initialState = {
   isLoading: false,
   status: null,
 };
-
 export const registratePharmacy = createAsyncThunk("auth/registrate", async (data, thunkAPI) => {
   const response = await fetch("http://localhost:4141/registrate", {
     method: "POST",
     body: data,
   });
-  console.log(data.get("logo"));
   const res = await response.json();
-  console.log(res);
   if (res.token) {
     window.localStorage.setItem("token", res.token);
   }

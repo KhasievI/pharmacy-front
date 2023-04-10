@@ -6,6 +6,7 @@ import styles from "./List.module.scss";
 import Product from "./Product";
 
 const List = ({ valuePrice }) => {
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchMedicines());
   }, []);
@@ -13,7 +14,7 @@ const List = ({ valuePrice }) => {
   const selectCategories = useSelector((state) => state.category.selectCategories);
   const selectPharmacies = useSelector((state) => state.pharmacy.selectPharmacies);
   const selectTypeDosage = useSelector((state) => state.medicine.selectTypeDosage);
-  const dispatch = useDispatch();
+
   const medicines = useSelector((state) =>
     state.medicine.medicines.filter((med) => {
       const pharmacy = selectPharmacies.length ? selectPharmacies.includes(med.pharmacyName) : true;

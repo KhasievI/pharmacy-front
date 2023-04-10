@@ -45,33 +45,66 @@ export const fetchMedicineById = createAsyncThunk("fetch/medicineById", async (i
   }
 });
 
-export const addMedicine = createAsyncThunk("add/medicine", async ({ data }, thunkAPI) => {
-  try {
-    const medicine = await fetch("http://localhost:4141/med", {
-      method: "POST",
-      body: JSON.stringify({
-        pharmacyName: data.get("pharmacyName"),
-        address: data.get("address"),
-        img: data.get("img"),
-        medName: data.get("name"),
-        weight: data.get("weight"),
-        methodOfAdministrationAndDose: data.get("methodOfAdministration"),
-        typeOfDosageForm: data.get("typeOfDosageForm"),
-        dateOfManufacture: data.get("dateOfManufacture"),
-        expirationDate: data.get("expirationDate"),
-        series: data.get("series"),
-        price: data.get("price"),
-        barcode: data.get("barcode"),
-        storageConditions: data.get("storageConditions"),
-        countInStock: data.get("countInStock"),
-        category: data.get("cat"),
-      }),
-    });
-    return await medicine.json();
-  } catch (error) {
-    console.log(error.message);
-  }
-});
+export const addMedicine = createAsyncThunk(
+  "add/medicine",
+  async ({ data }, thunkAPI) => {
+    try {
+      const medicine = await fetch("http://localhost:4141/med", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pharmacyName: data.get('pharmacyName'),
+          address: data.get('address'),
+          img: data.get('img'),
+          medName: data.get('name'),
+          weight: data.get('weight'),
+          methodOfAdministrationAndDose: data.get('methodOfAdministration'),
+          typeOfDosageForm: data.get('typeOfDosageForm'),
+          dateOfManufacture: data.get('dateOfManufacture'),
+          expirationDate: data.get('expirationDate'),
+          series: data.get('series'),
+          price: data.get('price'),
+          barcode: data.get('barcode'),
+          storageConditions: data.get('storageConditions'),
+          countInStock: data.get('countInStock'),
+          category: data.get('cat'),
+        }),
+      });
+      return await medicine.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+);
+// export const addMedicine = createAsyncThunk("add/medicine", async ({ data }, thunkAPI) => {
+//   try {
+//     const medicine = await fetch("http://localhost:4141/med", {
+//       method: "POST",
+//       body: JSON.stringify({
+//         pharmacyName: data.get("pharmacyName"),
+//         address: data.get("address"),
+//         img: data.get("img"),
+//         medName: data.get("name"),
+//         weight: data.get("weight"),
+//         methodOfAdministrationAndDose: data.get("methodOfAdministration"),
+//         typeOfDosageForm: data.get("typeOfDosageForm"),
+//         dateOfManufacture: data.get("dateOfManufacture"),
+//         expirationDate: data.get("expirationDate"),
+//         series: data.get("series"),
+//         price: data.get("price"),
+//         barcode: data.get("barcode"),
+//         storageConditions: data.get("storageConditions"),
+//         countInStock: data.get("countInStock"),
+//         category: data.get("cat"),
+//       }),
+//     });
+//     return await medicine.json();
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// });
 
 export const deleteMedicine = createAsyncThunk("delete/medicine", async (id, thunkAPI) => {
   try {
@@ -88,6 +121,9 @@ export const updateMedicine = createAsyncThunk("update/medicine", async ({ medId
   try {
     const res = await fetch(`http://localhost:4141/med/${medId}`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         pharmacyName: data.get("pharmacyName"),
         address: data.get("address"),

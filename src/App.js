@@ -12,8 +12,6 @@ import { Login } from "./pages/Login/Login";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { PersonalArea } from "./pages/PersonalArea/PersonalArea";
 import { AboutUs } from "./pages/AboutUs/AboutUs";
-import { Category } from "./pages/Category/Category";
-import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/Menu/Menu";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -28,7 +26,6 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <Header />
       <SearchBar />
       <Menu />
       <Routes>
@@ -38,11 +35,10 @@ function App() {
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />
         <Route path='/us' element={<AboutUs />} />
-        <Route path='/cat' element={<Category />} />
       </Routes>
       <Chatbot className={styles.bot} />
       <Footer />
-      <ToastContainer position='top-right' />
+      <ToastContainer position='bottom-left' />
     </div>
   );
 }
