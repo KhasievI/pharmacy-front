@@ -51,7 +51,7 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
     dispatch(cleanCategories());
     dispatch(cleanTypeDosage());
     dispatch(cleanPharmacies());
-    setValuePrice([0, 9999]);
+    setValuePrice([0, 3000]);
   }
 
   if (!pharmacies) {
@@ -68,7 +68,7 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
               <Slider
                 getAriaLabel={() => "Temperature range"}
                 value={valuePrice}
-                max={9999}
+                max={3000}
                 min={0}
                 onChange={handleChange}
                 valueLabelDisplay='auto'
@@ -82,7 +82,7 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
                 <input
                   type='number'
                   value={valuePrice[0]}
-                  max={9999}
+                  max={3000}
                   min={0}
                   id='input-2'
                   placeholder='от 100'
@@ -94,7 +94,7 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
                 <input
                   type='number'
                   value={valuePrice[1]}
-                  max={9999}
+                  max={3000}
                   min={0}
                   id='input-2'
                   placeholder='до 9999'
