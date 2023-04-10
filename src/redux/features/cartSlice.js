@@ -7,30 +7,19 @@ const initialState = {
 
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async ({ data }, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const res = await fetch("http://localhost:4000/cart", {
+      const { res } = await fetch("http://localhost:4141/cart", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.get("name"),
-          email: data.get('email'),
-          number: data.get('number'),
-          country: data.get('country'),
-          citi: data.get('citi'),
-          street: data.get('street'),
-          home: data.get('home'),
-          flat: data.get('flat'),
-          localStorageItems: data.get('localStorageItems')
-        }),
-    });
-      const response = await res.json();
-      if (response.message) {
-        return thunkAPI.rejectWithValue(response);
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const responseJson = await res.json();
+      console.log('responseJson', responseJson);
+      if (responseJson.message) {
+        thunkAPI.rejectWithValue(responseJson);
       }
-      return response;
+      return responseJson;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -39,22 +28,45 @@ export const fetchCart = createAsyncThunk(
 
 export const addItemToLocalStorage = createAsyncThunk(
   "cart/addItemToLocalStorage",
-  async ({ data }, thunkAPI) => {
+  async ({_id, price, count = 1, pharmacyName}, thunkAPI) => {
     try {
-      const response = await JSON.stringify({
-        image: data.get('image'),
-        name: data.get("name"),
-        size: data.get("size"),
-        price: data.get("price"),
-        total: data.get("total"),
-        count: data.get("count"),
-        color: data.get("color"),
-      });
       localStorage.setItem('items', [])
-      if (response.message) {
-        return thunkAPI.rejectWithValue(response);
-      }
-      return response;
+      return {_id, price, count, pharmacyName};
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const updateItemToLocalStorage = createAsyncThunk(
+  "cart/updateItemToLocalStorage",
+  async (data, thunkAPI) => {
+    try {
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteItem = createAsyncThunk(
+  "deleteItem/cart",
+  async (itemId, thunkAPI) => {
+    try {
+      return itemId;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteCart = createAsyncThunk(
+  "delete/cart",
+  async (id, thunkAPI) => {
+    try {
+      await fetch(`http://localhost:4141/cart/del/${id}`, {
+        method: "PATCH",
+      });
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -65,7 +77,7 @@ export const getCart = createAsyncThunk(
   "cart/getCart",
   async (id, thunkApi) => {
     try {
-      const res = await fetch(`http://localhost:4000/cart/${id}`);
+      const res = await fetch(`http://localhost:4141/cart/${id}`);
       return res.json();
     } catch (err) {
       return thunkApi.rejectWithValue(err);
@@ -77,7 +89,7 @@ export const getAllCarts = createAsyncThunk(
   "cart/getAllCarts",
   async (_, thunkApi) => {
     try {
-      const res = await fetch("http://localhost:4000/cart");
+      const res = await fetch("http://localhost:4141/cart");
       return res.json();
     } catch (err) {
       return thunkApi.rejectWithValue(err);
@@ -96,7 +108,8 @@ export const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.loading = false;
-        state.items.push(action.payload);
+        state.items = [];
+        console.log(state.items);
         localStorage.removeItem('items')
       })
       .addCase(fetchCart.rejected, (state) => {
@@ -104,11 +117,17 @@ export const cartSlice = createSlice({
       })
       .addCase(addItemToLocalStorage.fulfilled, (state, action) => {
         state.items.push(action.payload);
-        localStorage.setItem("items", `[${state.items}]`);
-        // const testStr = localStorage.getItem("items");
-        // console.log("testStr", testStr);
-        // const parsedStr = JSON.parse(localStorage.getItem("items"));
-        // console.log("parsedStr", parsedStr);
+        localStorage.setItem("items", `${JSON.stringify(state.items)}`);
+      })
+      .addCase(updateItemToLocalStorage.fulfilled, (state, action) => {
+        state.items = Object.assign({}, state.items, 
+          state.items.map((item) => 
+            item._id === action.payload._id 
+            ? { ...item, count: action.payload.count } 
+            : item
+          )
+        );
+        localStorage.setItem("items", `${JSON.stringify(state.items)}`);
       })
       .addCase(getCart.pending, (state) => {
         state.loading = true;
@@ -122,7 +141,11 @@ export const cartSlice = createSlice({
       })
       .addCase(getAllCarts.fulfilled, (state, action) => {
         state.items = action.payload;
-      });
+      })
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.items = state.items.filter((item) => item._id === action.payload ? false : true)
+        localStorage.setItem("items", `${JSON.stringify(state.items)}`);
+      })
   },
 });
 

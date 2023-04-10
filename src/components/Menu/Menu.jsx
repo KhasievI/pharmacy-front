@@ -12,7 +12,7 @@ const Menu = () => {
             <Link to='/'>ГЛАВНАЯ</Link>
           </li>
           <li>
-            <Link to='/cat'>КАТЕГОРИИ</Link>
+            <Link to='/items'>ТОВАР</Link>
           </li>
           <li>
             <Link to='/us'>О НАС</Link>

@@ -1,55 +1,59 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Basket.module.scss";
+import { deleteItem, updateItemToLocalStorage } from "../../redux/features/cartSlice";
 
-const Cart = ({ id, productId, amount, num }) => {
-  const [count, setCount] = React.useState(1);
-  const product = useSelector((state) =>
-    state.products.find((product) => {
-      return product.id === productId
+const Cart = ({ _id, totalPrice, setTotalPrice }) => {
+  const [count, setCount] = React.useState(1)
+  const dispatch = useDispatch();
+  const medicine = useSelector((state) =>
+    state.medicine.medicines.filter((med) => {
+      return med._id === _id
     })
   )
-
-  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items)
 
   const dec = () => {
-    if (amount > 1) {
-      setCount(count - 1);
+    if (count > 1) {
+      setCount(count - 1)
     }
   };
 
   const inc = () => {
-    if (product.left > 0) {
-      setCount(count + 1);
+    if (count > 0) {
+      setCount(count + 1)
     }
   };
+  const update = (_id) => {
+    dispatch(updateItemToLocalStorage({ _id, count, cartItems }))
+  }
 
-  // const productRemove = () => {
-  //   dispatch(deleteItem({ id, productId, amount }))
-  // }
+  const medicineRemove = (_id) => {
+    dispatch(deleteItem(_id))
+  }
 
-  let sum = <b>{product.discount ? (product.price - (product.price / 100 * product.discount)) * amount : product.price * amount} ₽</b>
+  if (!cartItems) {
+    return 'Жди!!!'
+  }
 
   return (
-    <tr>
-      <td>{num}</td>
+    <tr className={styles.cart}>
       <td>
-        <img src='{product.image}' alt="img" />
+        <img src={medicine[0].img} alt="img" />
       </td>
       <td>
-        {product.name}
-      </td>
-      <td>'{product.left}'</td>
-      <td>
-        <button onClick={dec} className={styles.minus}>-</button>
-        <b className={styles.amount}>{amount}</b>
-        <button onClick={inc} className={styles.plus}>+</button>
+        {medicine[0].medName}
       </td>
       <td>
-        {sum}
+        <button className={styles.minus} onClick={() => update(_id)} ><span onClick={dec}>-</span></button>
+        <b className={styles.amount}>{count}</b>
+        <button className={styles.plus} onClick={() => update(_id)} ><span onClick={inc}>+</span></button>
       </td>
       <td>
-        <button class="btn btn-danger" onClick='{productRemove}'>Удалить</button>
+        {medicine[0].price * count}
+      </td>
+      <td>
+        <button className="btn btn-danger" onClick={() => medicineRemove(_id)}>Удалить</button>
       </td>
     </tr>
   );

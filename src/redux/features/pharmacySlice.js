@@ -3,27 +3,22 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
   pharmacy: {},
   pharmacies: [],
+  selectPharmacies: [],
   token: window.localStorage.getItem("token") || null,
   isLoading: false,
   status: null,
-}
-
-export const registratePharmacy = createAsyncThunk(
-  "auth/registrate",
-  async ( data , thunkAPI) => {
-    const response = await fetch("http://localhost:4141/registrate", {
-      method: "POST",
-      body: data
-    });
-    console.log(data.get('logo'));
-      const res = await response.json();
-      console.log(res);
-      if (res.token) {
-      window.localStorage.setItem('token', res.token)
-    }
-    return res;
+};
+export const registratePharmacy = createAsyncThunk("auth/registrate", async (data, thunkAPI) => {
+  const response = await fetch("http://localhost:4141/registrate", {
+    method: "POST",
+    body: data,
+  });
+  const res = await response.json();
+  if (res.token) {
+    window.localStorage.setItem("token", res.token);
   }
-);
+  return res;
+});
 
 export const loginPharmacy = createAsyncThunk("auth/login", async ({ pharmacyName, password }) => {
   const response = await fetch("http://localhost:4141/login", {
@@ -44,12 +39,11 @@ export const getPharmacies = createAsyncThunk("get/Pharmacies", async () => {
 });
 
 export const getPharmacy = createAsyncThunk("get/pharmacy", async () => {
-  const response = await fetch(`http://localhost:4141/me`,
-    {
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-      }
-    });
+  const response = await fetch(`http://localhost:4141/me`, {
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  });
   return await response.json();
 });
 
@@ -62,6 +56,15 @@ const pharmacySlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    switchPharmacy(state, action) {
+      if (state.selectPharmacies.includes(action.payload)) {
+        state.selectPharmacies = state.selectPharmacies.filter((pharmacy) => {
+          return pharmacy !== action.payload;
+        });
+      } else {
+        state.selectPharmacies = [...state.selectPharmacies, action.payload];
+      }
+    },
     logout: (state) => {
       state.pharmacy = null;
       state.pharmacies = [];
@@ -107,13 +110,14 @@ const pharmacySlice = createSlice({
         state.pharmacy = action.payload.pharmacy;
       })
       .addCase(deletePharmacyByName.fulfilled, (state, action) => {
-        state.pharmacies = state.pharmacies.filter((pharmacy) => pharmacy.pharmacyName !== action.payload);
+        state.pharmacies = state.pharmacies.filter(
+          (pharmacy) => pharmacy.pharmacyName !== action.payload,
+        );
         state.status = action.error.message;
-      })
-
+      });
   },
 });
 
-export const checkIsAuth = (state) => Boolean(state.pharmacy.token)
-export const { logout } = pharmacySlice.actions;
+export const checkIsAuth = (state) => Boolean(state.pharmacy.token);
+export const { logout, switchPharmacy } = pharmacySlice.actions;
 export default pharmacySlice.reducer;
