@@ -12,7 +12,6 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
     }),
   );
   const cartItems = useSelector((state) => state.cart.items);
-
   const update = (_id, bool) => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const newCart = cart.map((prod) => {
@@ -33,12 +32,17 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
 
   const medicineRemove = (_id) => {
     dispatch(deleteItem(_id));
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    const newCart = cart?.filter((prod) => {
+      return prod._id !== _id;
+    });
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
   if (!cartItems) {
     return "Жди!!!";
   }
-
+  console.log(medicine);
   return (
     <tr className={styles.cart}>
       <td>
@@ -47,13 +51,21 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
       <td>{medicine[0].medName}</td>
       <td>
         <button className={styles.minus} onClick={() => update(_id, false)}>
-          <span disabled={count === 1} onClick={() => setCount(count - 1)}>
+          <button
+            className={styles.btn_count}
+            disabled={count === 1}
+            onClick={() => setCount(count - 1)}>
             -
-          </span>
+          </button>
         </button>
         <b className={styles.amount}>{count}</b>
         <button className={styles.plus} onClick={() => update(_id, true)}>
-          <span onClick={() => setCount(count + 1)}>+</span>
+          <button
+            className={styles.btn_count}
+            disabled={count === medicine[0].countInStock}
+            onClick={() => setCount(count + 1)}>
+            +
+          </button>
         </button>
       </td>
       <td>{medicine[0].price * count}</td>

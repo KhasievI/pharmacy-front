@@ -14,7 +14,6 @@ const Index = () => {
   console.log(cartItems);
   const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
-  const localStorageItems = JSON.parse(localStorage.getItem("items"));
 
   const handleSendCart = () => {
     dispatch(fetchCart(cartItems));
@@ -30,7 +29,7 @@ const Index = () => {
         {!opened ? (
           <div className={styles.cartButton} onClick={() => setOpened(true)}>
             <img src={bagIcon} alt='img' />
-            {cartItems.length ? <span>{cartItems?.length}</span> : ""}
+            {cartItems.length ? <span>{cartItems.length}</span> : ""}
           </div>
         ) : (
           ""

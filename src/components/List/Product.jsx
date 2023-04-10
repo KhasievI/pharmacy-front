@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addItemToCard } from "../../redux/features/cartSlice";
 import styles from "./List.module.scss";
 
@@ -10,6 +11,7 @@ const Product = ({ medicine }) => {
   const arr = JSON.parse(fav);
   const medFav = arr?.includes(medicine.medName);
   const [focus, setFocus] = useState(medFav);
+  const [disabled, setDisabled] = useState(false);
 
   const handleFavorite = (productName) => {
     const fav = localStorage.getItem("fav");
@@ -53,8 +55,18 @@ const Product = ({ medicine }) => {
       localStorage.setItem("cart", JSON.stringify(newCart));
     }
   };
-  const cart = JSON.parse(localStorage.getItem("cart"));
-  console.log();
+  const cartItems = useSelector((state) => state.cart.items);
+
+  useEffect(() => {
+    setDisabled(false);
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    cart?.map((prod) => {
+      if (prod._id === medicine._id) {
+        setDisabled(true);
+      }
+    });
+  }, [cartItems]);
+
   return (
     <div
       onMouseEnter={() => setActive(true)}
@@ -75,7 +87,10 @@ const Product = ({ medicine }) => {
         <div className={styles.card_title}>{medicine.medName}</div>
         <div className={styles.price_cart_block}>
           <div className={styles.card_price}>{medicine.price}₽</div>
-          <button className={styles.cart_btn} onClick={() => addToCard(medicine)}>
+          <button
+            disabled={disabled}
+            className={styles.cart_btn}
+            onClick={() => addToCard(medicine)}>
             В корзину
           </button>
         </div>
