@@ -11,7 +11,7 @@ const PharmacyList = ({ valuePrice }) => {
   }, []);
 
   const dispatch = useDispatch();
-  const pharmacies = useSelector((state) => state.pharmacy.pharmacies.pharmacies);
+  const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
 
   console.log(pharmacies);
   if (!pharmacies) {
@@ -20,9 +20,14 @@ const PharmacyList = ({ valuePrice }) => {
   return (
     <div className={styles.list}>
       {pharmacies.map((pharmacy) => {
+        console.log(pharmacy);
         return (
           <div className={styles.cardblock}>
-            <img className={styles.card_img} src={`${pharmacy.logo}`} alt='' />
+            <img
+              className={styles.card_img}
+              src={`http://localhost:4141/${pharmacy.logo}`}
+              alt=''
+            />
             <div className={styles.card_text}>
               <div className={styles.card_title}>{pharmacy.pharmacyName}</div>
               <div className={styles.price_cart_block}>

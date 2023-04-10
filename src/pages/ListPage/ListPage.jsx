@@ -5,7 +5,7 @@ import styles from "./ListPage.module.scss";
 
 const ListPage = () => {
   const [selectCategory, setSelectCategory] = React.useState("");
-  const [valuePrice, setValuePrice] = React.useState([0, 9999]);
+  const [valuePrice, setValuePrice] = React.useState([0, 3000]);
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
