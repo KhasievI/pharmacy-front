@@ -23,7 +23,6 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
   const categories = useSelector((state) => state.category.categories);
   const typesDosage = useSelector((state) => state.medicine.typeDosage);
 
-  console.log(categories);
   const selectCategories = useSelector((state) => state.category.selectCategories);
   const selectPharmacies = useSelector((state) => state.pharmacy.selectPharmacies);
   const selectTypeDosage = useSelector((state) => state.medicine.selectTypeDosage);

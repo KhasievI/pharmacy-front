@@ -33,6 +33,8 @@ const List = ({ valuePrice }) => {
     }),
   );
 
+  
+
   if (!medicines) {
     return "..";
   }
