@@ -16,6 +16,7 @@ import Footer from "./components/Footer/Footer";
 import Menu from "./components/Menu/Menu";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ListPage from "./pages/ListPage/ListPage";
+import MapHeader from "./components/MapHeader/MapHeader";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <div className={styles.App}>
+      <MapHeader />
       <SearchBar />
       <Menu />
       <Routes>

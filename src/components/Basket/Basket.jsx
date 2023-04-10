@@ -30,13 +30,13 @@ const Index = () => {
         {!opened ? (
           <div className={styles.cartButton} onClick={() => setOpened(true)}>
             <img src={bagIcon} alt='img' />
-            {localStorageItems?.length ? <span>{localStorageItems?.length}</span> : ""}
+            {cartItems.length ? <span>{cartItems?.length}</span> : ""}
           </div>
         ) : (
           ""
         )}
         {opened &&
-          (localStorageItems === 0 ? (
+          (cartItems.length === 0 ? (
             <div>
               <div
                 className={styles.cartButton}
