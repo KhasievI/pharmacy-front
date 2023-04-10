@@ -1,15 +1,6 @@
 .AdverSlider {
   flex: 0 0 auto;
 }
-.conteiner {
-  display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 5px;
-  .wrapper {
-    .logo {
-      width: 45%;
-    }
-  }
 .home_page {
   width: 100%;
 }
@@ -21,5 +12,4 @@
   justify-content: center;
   align-items: center;
   margin-top: 5vh;
-}
 }

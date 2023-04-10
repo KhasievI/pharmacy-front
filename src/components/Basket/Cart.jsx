@@ -12,26 +12,15 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
     }),
   );
   const cartItems = useSelector((state) => state.cart.items);
-
-  const dec = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
-
-  const inc = () => {
-    if (count > 0) {
-      setCount(count + 1);
-    }
-  };
   const update = (_id, bool) => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const newCart = cart.map((prod) => {
       if (prod._id === _id) {
+        console.log(medicine);
         return {
           ...prod,
-          count: bool ? prod.count + 1 : prod.count - 1,
-          price: bool ? prod.price * count : prod.price * (count - 1),
+          count: bool ? count + 1 : count - 1,
+          price: bool ? medicine[0].price * (count + 1) : medicine[0].price * (count - 1),
         };
       } else {
         return prod;
@@ -43,12 +32,17 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
 
   const medicineRemove = (_id) => {
     dispatch(deleteItem(_id));
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    const newCart = cart?.filter((prod) => {
+      return prod._id !== _id;
+    });
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
   if (!cartItems) {
     return "Жди!!!";
   }
-
+  console.log(medicine);
   return (
     <tr className={styles.cart}>
       <td>
@@ -57,11 +51,21 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
       <td>{medicine[0].medName}</td>
       <td>
         <button className={styles.minus} onClick={() => update(_id, false)}>
-          <span onClick={dec}>-</span>
+          <button
+            className={styles.btn_count}
+            disabled={count === 1}
+            onClick={() => setCount(count - 1)}>
+            -
+          </button>
         </button>
-        <b  className={styles.amount}>{count}</b>
+        <b className={styles.amount}>{count}</b>
         <button className={styles.plus} onClick={() => update(_id, true)}>
-          <span onClick={inc}>+</span>
+          <button
+            className={styles.btn_count}
+            disabled={count === medicine[0].countInStock}
+            onClick={() => setCount(count + 1)}>
+            +
+          </button>
         </button>
       </td>
       <td>{medicine[0].price * count}</td>

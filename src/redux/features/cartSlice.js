@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  items: localStorage.getItem("cart"),
+  items: JSON.parse(localStorage.getItem("cart")),
   loading: false,
 };
 
@@ -35,16 +35,16 @@ export const addItemToLocalStorage = createAsyncThunk(
   },
 );
 
-export const updateItemToLocalStorage = createAsyncThunk(
-  "cart/updateItemToLocalStorage",
-  async (data, thunkAPI) => {
-    try {
-      return data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err);
-    }
-  },
-);
+// export const updateItemToLocalStorage = createAsyncThunk(
+//   "cart/updateItemToLocalStorage",
+//   async (data, thunkAPI) => {
+//     try {
+//       return data;
+//     } catch (err) {
+//       return thunkAPI.rejectWithValue(err);
+//     }
+//   },
+// );
 
 export const deleteItem = createAsyncThunk("deleteItem/cart", async (itemId, thunkAPI) => {
   try {
@@ -108,16 +108,16 @@ export const cartSlice = createSlice({
         state.items.push(action.payload);
         localStorage.setItem("items", `${JSON.stringify(state.items)}`);
       })
-      .addCase(updateItemToLocalStorage.fulfilled, (state, action) => {
-        state.items = Object.assign(
-          {},
-          state.items,
-          state.items.map((item) =>
-            item._id === action.payload._id ? { ...item, count: action.payload.count } : item,
-          ),
-        );
-        localStorage.setItem("items", `${JSON.stringify(state.items)}`);
-      })
+      // .addCase(updateItemToLocalStorage.fulfilled, (state, action) => {
+      //   state.items = Object.assign(
+      //     {},
+      //     state.items,
+      //     state.items.map((item) =>
+      //       item._id === action.payload._id ? { ...item, count: action.payload.count } : item,
+      //     ),
+      //   );
+      //   localStorage.setItem("items", `${JSON.stringify(state.items)}`);
+      // })
       .addCase(getCart.pending, (state) => {
         state.loading = true;
       })
@@ -133,7 +133,6 @@ export const cartSlice = createSlice({
       })
       .addCase(deleteItem.fulfilled, (state, action) => {
         state.items = state.items.filter((item) => (item._id === action.payload ? false : true));
-        localStorage.setItem("items", `${JSON.stringify(state.items)}`);
       });
   },
 });
