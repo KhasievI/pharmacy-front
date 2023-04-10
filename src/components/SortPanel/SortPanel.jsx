@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, switchCategory } from "../../redux/features/categorySlice";
-import { getPharmacies, switchPharmacy, switchPharmasy } from "../../redux/features/pharmacySlice";
+import {
+  cleanCategories,
+  fetchCategories,
+  switchCategory,
+} from "../../redux/features/categorySlice";
+import { cleanPharmacies, getPharmacies, switchPharmacy } from "../../redux/features/pharmacySlice";
 import styles from "./SortPanel.module.scss";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import { switchTypeDosage } from "../../redux/features/medicineSlice";
+import { cleanTypeDosage, switchTypeDosage } from "../../redux/features/medicineSlice";
 
-const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategory }) => {
+const SortPanel = ({ valuePrice, setValuePrice }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -18,7 +22,11 @@ const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategor
   const pharmacies = useSelector((state) => state.pharmacy.pharmacies.pharmacies);
   const categories = useSelector((state) => state.category.categories);
   const typesDosage = useSelector((state) => state.medicine.typeDosage);
-  console.log(pharmacies);
+
+  const selectCategories = useSelector((state) => state.category.selectCategories);
+  const selectPharmacies = useSelector((state) => state.pharmacy.selectPharmacies);
+  const selectTypeDosage = useSelector((state) => state.medicine.selectTypeDosage);
+
   const handleCategory = (value) => {
     dispatch(switchCategory(value));
   };
@@ -37,6 +45,13 @@ const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategor
 
   function valuetext(value) {
     return `${value}°C`;
+  }
+
+  function handleFilter() {
+    dispatch(cleanCategories());
+    dispatch(cleanTypeDosage());
+    dispatch(cleanPharmacies());
+    setValuePrice([0, 9999]);
   }
 
   if (!pharmacies) {
@@ -94,8 +109,12 @@ const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategor
           <ul className={styles.list}>
             {categories &&
               categories.map((cat) => {
+                const classActive = selectCategories.includes(cat.name);
                 return (
-                  <div key={cat._id} onClick={() => handleCategory(cat.name)} className={styles.li}>
+                  <div
+                    key={cat._id}
+                    onClick={() => handleCategory(cat.name)}
+                    className={classActive ? `${styles.select}` : `${styles.li}`}>
                     {cat.name}
                   </div>
                 );
@@ -107,11 +126,12 @@ const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategor
           <ul className={styles.list}>
             {pharmacies &&
               pharmacies.map((pharmacy) => {
+                const classActive = selectPharmacies.includes(pharmacy.pharmacyName);
                 return (
                   <div
                     onClick={() => handlePharmacies(pharmacy.pharmacyName)}
                     key={pharmacy._id}
-                    className={styles.li}>
+                    className={classActive ? `${styles.select}` : `${styles.li}`}>
                     {pharmacy.pharmacyName}
                   </div>
                 );
@@ -122,14 +142,21 @@ const SortPanel = ({ valuePrice, setValuePrice, selectCategory, setSelectCategor
           <h2 className={styles.title}>Лекарственная форма</h2>
           <ul className={styles.list}>
             {typesDosage.map((form, i) => {
+              const classActive = selectTypeDosage.includes(form);
               return (
-                <div onClick={() => handleTypeDosage(form)} key={i} className={styles.li}>
+                <div
+                  onClick={() => handleTypeDosage(form)}
+                  key={i}
+                  className={classActive ? `${styles.select}` : `${styles.li}`}>
                   {form}
                 </div>
               );
             })}
           </ul>
         </div>
+        <button onClick={handleFilter} className={styles.reset_filters}>
+          Отчистить фильтр
+        </button>
       </div>
     </div>
   );

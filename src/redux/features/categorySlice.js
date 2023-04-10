@@ -81,6 +81,9 @@ export const categorySlice = createSlice({
         state.selectCategories = [...state.selectCategories, action.payload];
       }
     },
+    cleanCategories(state, action) {
+      state.selectCategories = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -110,4 +113,4 @@ export const categorySlice = createSlice({
 });
 
 export default categorySlice.reducer;
-export const { switchCategory } = categorySlice.actions;
+export const { switchCategory, cleanCategories } = categorySlice.actions;
