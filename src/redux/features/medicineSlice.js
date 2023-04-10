@@ -126,6 +126,9 @@ export const medicineSlice = createSlice({
         state.selectTypeDosage = [...state.selectTypeDosage, action.payload];
       }
     },
+    cleanTypeDosage(state, action) {
+      state.selectTypeDosage = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -190,4 +193,4 @@ export const medicineSlice = createSlice({
 });
 
 export default medicineSlice.reducer;
-export const { switchTypeDosage } = medicineSlice.actions;
+export const { switchTypeDosage, cleanTypeDosage } = medicineSlice.actions;
