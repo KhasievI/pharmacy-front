@@ -68,6 +68,9 @@ const pharmacySlice = createSlice({
         state.selectPharmacies = [...state.selectPharmacies, action.payload];
       }
     },
+    cleanPharmacies(state, action) {
+      state.selectPharmacies = [];
+    },
     logout: (state) => {
       state.pharmacy = null;
       state.pharmacies = [];
@@ -122,5 +125,5 @@ const pharmacySlice = createSlice({
 });
 
 export const checkIsAuth = (state) => Boolean(state.pharmacy.token);
-export const { logout, switchPharmacy } = pharmacySlice.actions;
+export const { logout, switchPharmacy, cleanPharmacies } = pharmacySlice.actions;
 export default pharmacySlice.reducer;
