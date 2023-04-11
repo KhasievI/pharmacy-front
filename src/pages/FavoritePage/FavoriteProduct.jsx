@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCard } from "../../redux/features/cartSlice";
-import styles from "./List.module.scss";
+import styles from "./FavoritePage.module.scss";
 
-const Product = ({ medicine }) => {
+const FavoriteProduct = ({ medicine }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const fav = localStorage.getItem("fav");
@@ -99,4 +99,4 @@ const Product = ({ medicine }) => {
   );
 };
 
-export default Product;
+export default FavoriteProduct;

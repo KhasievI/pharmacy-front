@@ -11,7 +11,6 @@ const Index = () => {
   const [opened, setOpened] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const cartItems = useSelector((state) => state.cart.items);
-  console.log(cartItems);
   const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
 
