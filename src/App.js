@@ -17,6 +17,7 @@ import Menu from "./components/Menu/Menu";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ListPage from "./pages/ListPage/ListPage";
 import MapHeader from "./components/MapHeader/MapHeader";
+import FavoritePage from "./pages/FavoritePage/FavoritePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />
         <Route path='/us' element={<AboutUs />} />
+        <Route path='/favoriteItems' element={<FavoritePage />} />
       </Routes>
       <Chatbot className={styles.bot} />
       <Footer />

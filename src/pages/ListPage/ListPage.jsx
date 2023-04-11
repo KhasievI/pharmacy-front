@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import List from "../../components/List/List";
 import SortPanel from "../../components/SortPanel/SortPanel";
 import styles from "./ListPage.module.scss";
@@ -9,13 +10,24 @@ const ListPage = () => {
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
-        <SortPanel
-          selectCategory={selectCategory}
-          setSelectCategory={setSelectCategory}
-          setValuePrice={setValuePrice}
-          valuePrice={valuePrice}
-        />
-        <List selectCategory={selectCategory} valuePrice={valuePrice} />
+        <div className={styles.path_block}>
+          <div className={styles.path}>
+            <Link className={styles.a} to='/'>
+              Главная страница
+            </Link>{" "}
+            {" / "}Каталог
+          </div>
+          <h1 className={styles.title}>Каталог</h1>
+        </div>
+        <div className={styles.content_block}>
+          <SortPanel
+            selectCategory={selectCategory}
+            setSelectCategory={setSelectCategory}
+            setValuePrice={setValuePrice}
+            valuePrice={valuePrice}
+          />
+          <List selectCategory={selectCategory} valuePrice={valuePrice} />
+        </div>
       </div>
     </div>
   );

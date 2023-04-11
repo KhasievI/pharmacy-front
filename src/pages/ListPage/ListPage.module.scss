@@ -2,4 +2,25 @@
   display: flex;
   margin: auto;
   width: 80%;
+  flex-direction: column;
+  .path_block {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    h1 {
+      margin: 15px 0;
+    }
+    .path {
+      opacity: 0.5;
+      font-size: 13px;
+      margin-top: 50px;
+      .a {
+        color: black;
+      }
+    }
+  }
+  .content_block {
+    display: flex;
+  }
 }

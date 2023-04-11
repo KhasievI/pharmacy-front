@@ -14,10 +14,6 @@ import { cleanTypeDosage, switchTypeDosage } from "../../redux/features/medicine
 
 const SortPanel = ({ valuePrice, setValuePrice }) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(getPharmacies());
-  }, []);
 
   const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
   const categories = useSelector((state) => state.category.categories);
@@ -52,7 +48,14 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
     dispatch(cleanTypeDosage());
     dispatch(cleanPharmacies());
     setValuePrice([0, 3000]);
+    window.scrollTo(0, 0);
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchCategories());
+    dispatch(getPharmacies());
+  }, []);
 
   if (!pharmacies) {
     console.log("loading");
@@ -104,23 +107,6 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
             </div>
           </div>
         </div>
-        <div className={styles.category}>
-          <h2 className={styles.title}>Категория</h2>
-          <ul className={styles.list}>
-            {categories &&
-              categories.map((cat) => {
-                const classActive = selectCategories.includes(cat.name);
-                return (
-                  <div
-                    key={cat._id}
-                    onClick={() => handleCategory(cat.name)}
-                    className={classActive ? `${styles.select}` : `${styles.li}`}>
-                    {cat.name}
-                  </div>
-                );
-              })}
-          </ul>
-        </div>
         <div className={styles.pharmasy}>
           <h2 className={styles.title}>Аптека</h2>
           <ul className={styles.list}>
@@ -133,6 +119,23 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
                     key={pharmacy._id}
                     className={classActive ? `${styles.select}` : `${styles.li}`}>
                     {pharmacy.pharmacyName}
+                  </div>
+                );
+              })}
+          </ul>
+        </div>
+        <div className={styles.category}>
+          <h2 className={styles.title}>Категория</h2>
+          <ul className={styles.list}>
+            {categories &&
+              categories.map((cat) => {
+                const classActive = selectCategories.includes(cat.name);
+                return (
+                  <div
+                    key={cat._id}
+                    onClick={() => handleCategory(cat.name)}
+                    className={classActive ? `${styles.select}` : `${styles.li}`}>
+                    {cat.name}
                   </div>
                 );
               })}

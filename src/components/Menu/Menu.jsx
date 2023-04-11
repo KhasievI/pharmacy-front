@@ -3,7 +3,6 @@ import styles from "./Menu.module.scss";
 import { Link } from "react-router-dom";
 
 const Menu = () => {
-
   return (
     <>
       <div className={styles.menu}>
@@ -12,7 +11,7 @@ const Menu = () => {
             <Link to='/'>ГЛАВНАЯ</Link>
           </li>
           <li>
-            <Link to='/items'>ТОВАР</Link>
+            <Link to='/items'>КАТАЛОГ</Link>
           </li>
           <li>
             <Link to='/us'>О НАС</Link>
