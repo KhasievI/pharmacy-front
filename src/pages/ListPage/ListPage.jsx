@@ -4,7 +4,7 @@ import List from "../../components/List/List";
 import SortPanel from "../../components/SortPanel/SortPanel";
 import styles from "./ListPage.module.scss";
 
-const ListPage = () => {
+const ListPage = ({ search, setSearch }) => {
   const [selectCategory, setSelectCategory] = React.useState("");
   const [valuePrice, setValuePrice] = React.useState([0, 3000]);
   return (
@@ -26,7 +26,12 @@ const ListPage = () => {
             setValuePrice={setValuePrice}
             valuePrice={valuePrice}
           />
-          <List selectCategory={selectCategory} valuePrice={valuePrice} />
+          <List
+            selectCategory={selectCategory}
+            valuePrice={valuePrice}
+            setSearch={setSearch}
+            search={search}
+          />
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@ const PharmacyList = ({ valuePrice }) => {
   console.log(pharmacies, 'asd');
 
   const handlePharmacies = (value) => {
-    navigate(`/items`);
+    navigate(`/list`);
     dispatch(switchPharmacy(value));
   };
 

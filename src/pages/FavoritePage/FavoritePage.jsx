@@ -12,9 +12,10 @@ const FavoritePage = () => {
   useEffect(() => {
     dispatch(fetchMedicines());
   }, []);
+
   const medicines = useSelector((state) => state.medicine.medicines);
   const favoriteMeds = medicines.filter((med) => {
-    return fav.includes(med.medName);
+    return fav?.includes(med.medName);
   });
   return (
     <div className={styles.styles}>

@@ -18,26 +18,28 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import ListPage from "./pages/ListPage/ListPage";
 import MapHeader from "./components/MapHeader/MapHeader";
 import FavoritePage from "./pages/FavoritePage/FavoritePage";
-import YMap from "./components/Map/YMap.jsx";
-
+import { PharmacyPage } from "./pages/PharmacyPage/PharmacyPage";
 
 function App() {
   const [map, setMap] = useState(false)
+const [search, setSearch] = useState("");
+import YMap from "./components/Map/YMap.jsx";
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPharmacy());
   }, [dispatch]);
-
+  console.log(search);
   return (
     <div className={styles.App}>
       {map ? <YMap setMap={setMap}/> : null}
       <MapHeader setMap={setMap}/>
-      <SearchBar />
+      <SearchBar setSearch={setSearch} search={search} />
       <Menu />
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/items' element={<ListPage />} />
+        <Route path='/list' element={<ListPage setSearch={setSearch} search={search} />} />
+        <Route path='/items' element={<PharmacyPage />} />
         <Route path='/me' element={<PersonalArea />} />
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />
