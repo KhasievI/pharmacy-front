@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { getPharmacy } from "./redux/features/pharmacySlice";
 import { ToastContainer } from "react-toastify";
@@ -18,8 +18,11 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import ListPage from "./pages/ListPage/ListPage";
 import MapHeader from "./components/MapHeader/MapHeader";
 import FavoritePage from "./pages/FavoritePage/FavoritePage";
+import YMap from "./components/Map/YMap.jsx";
+
 
 function App() {
+  const [map, setMap] = useState(false)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +31,8 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <MapHeader />
+      {map ? <YMap setMap={setMap}/> : null}
+      <MapHeader setMap={setMap}/>
       <SearchBar />
       <Menu />
       <Routes>
