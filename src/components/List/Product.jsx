@@ -40,9 +40,10 @@ const Product = ({ medicine }) => {
   const addToCard = (medicine) => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const obj = {
-      _id: medicine._id,
+      medId: medicine._id,
+      img: medicine.img,
       count: 1,
-      price: medicine.price,
+      price: +(medicine.price),
       pharmacy: medicine.pharmacyName,
     };
     if (cart) {
@@ -61,7 +62,7 @@ const Product = ({ medicine }) => {
     setDisabled(false);
     const cart = JSON.parse(localStorage.getItem("cart"));
     cart?.map((prod) => {
-      if (prod._id === medicine._id) {
+      if (prod.medId === medicine._id) {
         setDisabled(true);
       }
     });
@@ -91,7 +92,7 @@ const Product = ({ medicine }) => {
             disabled={disabled}
             className={styles.cart_btn}
             onClick={() => addToCard(medicine)}>
-            В корзину
+            {disabled ? 'Уже в корзине' : 'В корзину'}
           </button>
         </div>
       </div>

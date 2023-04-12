@@ -1,22 +1,29 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Basket.module.scss";
-import { deleteItem, updateItemToLocalStorage } from "../../redux/features/cartSlice";
+import { addItemToCard, deleteItem, updateItemToLocalStorage } from "../../redux/features/cartSlice";
+import { fetchMedicines } from "../../redux/features/medicineSlice";
 
-const Cart = ({ _id, totalPrice, setTotalPrice }) => {
-  const [count, setCount] = React.useState(1);
+
+const Cart = ({ medId, img, totalPrice, setTotalPrice }) => {
   const dispatch = useDispatch();
   const medicine = useSelector((state) =>
     state.medicine.medicines.filter((med) => {
-      return med._id === _id;
+      return med._id === medId;
     }),
   );
-  const cartItems = useSelector((state) => state.cart.items);
-  const update = (_id, bool) => {
+
+  React.useEffect(() => {
+    dispatch(fetchMedicines())
+  }, [])
+
+  const cartItem = useSelector((state) => state.cart.items.find(prod => prod.medId === medId))
+  const [count, setCount] = React.useState(cartItem ? cartItem.count : 1);
+  
+  const update = (medId, bool) => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const newCart = cart.map((prod) => {
-      if (prod._id === _id) {
-        console.log(medicine);
+      if (prod.medId === medId) {
         return {
           ...prod,
           count: bool ? count + 1 : count - 1,
@@ -26,31 +33,28 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
         return prod;
       }
     });
+    dispatch(addItemToCard(newCart));
     localStorage.setItem("cart", JSON.stringify(newCart));
-    // dispatch(updateItemToLocalStorage({ _id, count, cartItems }))
+    // dispatch(updateItemToLocalStorage({ medId, count, cartItems }))
   };
 
-  const medicineRemove = (_id) => {
-    dispatch(deleteItem(_id));
-    const cart = JSON.parse(localStorage.getItem("cart"));
+  const medicineRemove = (medId) => {
+    dispatch(deleteItem(medId));
+    const cart = JSON.parse(localStorage.getItem("cart"))
     const newCart = cart?.filter((prod) => {
-      return prod._id !== _id;
+      return prod.medId !== medId;
     });
-    localStorage.setItem("cart", JSON.stringify(newCart));
+    localStorage.setItem("cart", JSON.stringify(newCart))
   };
 
-  if (!cartItems) {
-    return "Жди!!!";
-  }
-  console.log(medicine);
   return (
     <tr className={styles.cart}>
       <td>
-        <img src={medicine[0].img} alt='img' />
+        <img src={img} alt='img' />
       </td>
       <td>{medicine[0].medName}</td>
       <td>
-        <button className={styles.minus} onClick={() => update(_id, false)}>
+        <button className={styles.minus} onClick={() => update(medId, false)}>
           <button
             className={styles.btn_count}
             disabled={count === 1}
@@ -59,7 +63,7 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
           </button>
         </button>
         <b className={styles.amount}>{count}</b>
-        <button className={styles.plus} onClick={() => update(_id, true)}>
+        <button className={styles.plus} onClick={() => update(medId, true)}>
           <button
             className={styles.btn_count}
             disabled={count === medicine[0].countInStock}
@@ -70,7 +74,7 @@ const Cart = ({ _id, totalPrice, setTotalPrice }) => {
       </td>
       <td>{medicine[0].price * count}</td>
       <td>
-        <button className='btn btn-danger' onClick={() => medicineRemove(_id)}>
+        <button className={styles.btn} onClick={() => medicineRemove(medId)}>
           Удалить
         </button>
       </td>

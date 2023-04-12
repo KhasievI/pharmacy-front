@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { getPharmacy } from "./redux/features/pharmacySlice";
@@ -11,19 +11,26 @@ import { Registrate } from "./pages/Registrate/Registrate";
 import { Login } from "./pages/Login/Login";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { PersonalArea } from "./pages/PersonalArea/PersonalArea";
+import { Order } from "./pages/Order/Order";
 import { AboutUs } from "./pages/AboutUs/AboutUs";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/Menu/Menu";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ListPage from "./pages/ListPage/ListPage";
 import MapHeader from "./components/MapHeader/MapHeader";
+import { getCart } from "./redux/features/cartSlice";
 
 function App() {
   const dispatch = useDispatch();
+  const pharmacy = useSelector((state) => state.pharmacy.pharmacy)
 
   useEffect(() => {
     dispatch(getPharmacy());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getCart(pharmacy.pharmacyName))
+  }, [dispatch])
 
   return (
     <div className={styles.App}>
@@ -32,6 +39,7 @@ function App() {
       <Menu />
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/order' element={<Order />} />
         <Route path='/items' element={<ListPage />} />
         <Route path='/me' element={<PersonalArea />} />
         <Route path='/registrate' element={<Registrate />} />
@@ -40,7 +48,7 @@ function App() {
       </Routes>
       <Chatbot className={styles.bot} />
       <Footer />
-      <ToastContainer position='bottom-left' />
+      <ToastContainer />
     </div>
   );
 }

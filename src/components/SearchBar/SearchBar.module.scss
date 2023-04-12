@@ -59,7 +59,6 @@
   border: 1px solid black;
 }
 
-
 .title {
   margin-bottom: 20px;
   color: white;
@@ -145,7 +144,6 @@
   height: 23px;
   margin-right: 10px;
   display: flex;
-
 }
 
 .logInIcon img {
@@ -172,9 +170,24 @@
   display: flex;
   height: 25px;
   cursor: pointer;
+  position: relative;
   border: none;
   background: white;
   &:hover {
     text-decoration: underline;
+  }
+  span {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ff4c4c;
+    font-size: 12px;
+    color: #fff;
   }
 }
