@@ -21,7 +21,9 @@ import FavoritePage from "./pages/FavoritePage/FavoritePage";
 import { PharmacyPage } from "./pages/PharmacyPage/PharmacyPage";
 
 function App() {
-  const [search, setSearch] = useState("");
+  const [map, setMap] = useState(false)
+const [search, setSearch] = useState("");
+import YMap from "./components/Map/YMap.jsx";
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +32,8 @@ function App() {
   console.log(search);
   return (
     <div className={styles.App}>
-      <MapHeader />
+      {map ? <YMap setMap={setMap}/> : null}
+      <MapHeader setMap={setMap}/>
       <SearchBar setSearch={setSearch} search={search} />
       <Menu />
       <Routes>

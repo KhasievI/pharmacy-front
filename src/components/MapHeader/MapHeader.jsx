@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styles from "./MapHeader.module.scss";
 
-const MapHeader = () => {
+const MapHeader = ({setMap}) => {
   const [active, setActive] = useState(false);
     // geolocation.getCurrentPosition()
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
-        <div className={styles.selected_pharmasy}>
+        <div className={styles.selected_pharmasy} onClick={() => setMap(true)}>
           <img
             className={styles.icon}
             src='https://cdn4.iconfinder.com/data/icons/medic-two-tone/32/Case_-1024.png'
