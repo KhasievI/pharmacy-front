@@ -18,7 +18,7 @@ const PharmacyList = ({ valuePrice }) => {
   }, []);
 
   const dispatch = useDispatch();
-  const pharmacies = useSelector((state) => state.pharmacy.pharmacies.pharmacies);
+  const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
   console.log(pharmacies, 'asd');
 
   const handlePharmacies = (value) => {
