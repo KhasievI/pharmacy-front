@@ -15,7 +15,7 @@ import { cleanTypeDosage, switchTypeDosage } from "../../redux/features/medicine
 const SortPanel = ({ valuePrice, setValuePrice }) => {
   const dispatch = useDispatch();
 
-  const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
+  const pharmacies = useSelector((state) => state.pharmacy.pharmacies.pharmacies);
   const categories = useSelector((state) => state.category.categories);
   const typesDosage = useSelector((state) => state.medicine.typeDosage);
 
