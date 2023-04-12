@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMedicines } from "../../redux/features/medicineSlice";
 import styles from "./List.module.scss";
 import Product from "./Product";
-import Basket from "../Basket/Basket";
 
 const List = ({ valuePrice }) => {
   const dispatch = useDispatch();
@@ -33,8 +32,6 @@ const List = ({ valuePrice }) => {
       );
     }),
   );
-
-
 
   if (!medicines) {
     return "..";

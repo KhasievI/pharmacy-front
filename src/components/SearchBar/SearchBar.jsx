@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SearchBar.module.scss";
 import { checkIsAuth } from "../../redux/features/pharmacySlice";
 import UserModal from "../UserModal/UserModal.jsx";
@@ -70,12 +70,14 @@ const SearchBar = () => {
       </div>
       <Basket />
       {!isAuth ? (
-        <div className={styles.favorite}>
-          <div className={styles.favLogo}>
-            <img src='favLogo.png' alt='' />
+        <Link className={styles.a} to='/favoriteitems'>
+          <div className={styles.favorite}>
+            <div className={styles.favLogo}>
+              <img src='favLogo.png' alt='' />
+            </div>
+            Избранное
           </div>
-          Избранное
-        </div>
+        </Link>
       ) : (
         <button onClick={() => navigate("/order")} className={styles.order}>
           Заказ

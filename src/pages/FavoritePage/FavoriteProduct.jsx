@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCard } from "../../redux/features/cartSlice";
-import styles from "./List.module.scss";
+import styles from "./FavoritePage.module.scss";
 
-const Product = ({ medicine }) => {
+const FavoriteProduct = ({ medicine }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const fav = localStorage.getItem("fav");
@@ -40,10 +40,9 @@ const Product = ({ medicine }) => {
   const addToCard = (medicine) => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const obj = {
-      medId: medicine._id,
-      img: medicine.img,
+      _id: medicine._id,
       count: 1,
-      price: +(medicine.price),
+      price: medicine.price,
       pharmacy: medicine.pharmacyName,
     };
     if (cart) {
@@ -62,7 +61,7 @@ const Product = ({ medicine }) => {
     setDisabled(false);
     const cart = JSON.parse(localStorage.getItem("cart"));
     cart?.map((prod) => {
-      if (prod.medId === medicine._id) {
+      if (prod._id === medicine._id) {
         setDisabled(true);
       }
     });
@@ -92,7 +91,7 @@ const Product = ({ medicine }) => {
             disabled={disabled}
             className={styles.cart_btn}
             onClick={() => addToCard(medicine)}>
-            {disabled ? 'Уже в корзине' : 'В корзину'}
+            В корзину
           </button>
         </div>
       </div>
@@ -100,4 +99,4 @@ const Product = ({ medicine }) => {
   );
 };
 
-export default Product;
+export default FavoriteProduct;

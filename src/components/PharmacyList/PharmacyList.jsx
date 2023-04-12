@@ -1,17 +1,30 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMedicines } from "../../redux/features/medicineSlice";
-import { getPharmacies } from "../../redux/features/pharmacySlice";
+import { useNavigate } from "react-router-dom";
+import { cleanCategories } from "../../redux/features/categorySlice";
+import { cleanTypeDosage } from "../../redux/features/medicineSlice";
+import { cleanPharmacies, getPharmacies, switchPharmacy } from "../../redux/features/pharmacySlice";
 import styles from "./PharmacyList.module.scss";
 
 const PharmacyList = ({ valuePrice }) => {
+  const navigate = useNavigate();
   useEffect(() => {
+    dispatch(cleanCategories());
+    dispatch(cleanTypeDosage());
+    dispatch(cleanPharmacies());
     dispatch(getPharmacies());
+    window.scrollTo(0, 0);
   }, []);
 
   const dispatch = useDispatch();
   const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
+  console.log(pharmacies, 'asd');
+
+  const handlePharmacies = (value) => {
+    navigate(`/items`);
+    dispatch(switchPharmacy(value));
+  };
 
   console.log(pharmacies);
   if (!pharmacies) {
@@ -20,9 +33,8 @@ const PharmacyList = ({ valuePrice }) => {
   return (
     <div className={styles.list}>
       {pharmacies.map((pharmacy) => {
-        console.log(pharmacy);
         return (
-          <div className={styles.cardblock}>
+          <div className={styles.cardblock} onClick={() => handlePharmacies(pharmacy.pharmacyName)}>
             <img
               className={styles.card_img}
               src={`http://localhost:4141/${pharmacy.logo}`}
