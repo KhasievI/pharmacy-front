@@ -22,10 +22,11 @@ import MapHeader from "./components/MapHeader/MapHeader";
 import { getCart } from "./redux/features/cartSlice";
 import FavoritePage from "./pages/FavoritePage/FavoritePage";
 import YMap from "./components/Map/YMap.jsx";
-
+import { PharmacyPage } from './pages/PharmacyPage/PharmacyPage';
 
 function App() {
   const [map, setMap] = useState(false)
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const pharmacy = useSelector((state) => state.pharmacy.pharmacy)
 
@@ -37,16 +38,18 @@ function App() {
     dispatch(getCart(pharmacy.pharmacyName))
   }, [dispatch])
 
+  console.log(search);
   return (
     <div className={styles.App}>
-      {map ? <YMap setMap={setMap}/> : null}
-      <MapHeader setMap={setMap}/>
-      <SearchBar />
+      {map ? <YMap setMap={setMap} /> : null}
+      <MapHeader setMap={setMap} />
+      <SearchBar setSearch={setSearch} search={search} />
       <Menu />
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/order' element={<Order />} />
-        <Route path='/items' element={<ListPage />} />
+        <Route path='/list' element={<ListPage setSearch={setSearch} search={search} />} />
+        <Route path='/items' element={<PharmacyPage />} />
         <Route path='/me' element={<PersonalArea />} />
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />

@@ -5,7 +5,7 @@ import { fetchMedicines } from "../../redux/features/medicineSlice";
 import styles from "./List.module.scss";
 import Product from "./Product";
 
-const List = ({ valuePrice }) => {
+const List = ({ valuePrice, search }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchMedicines());
@@ -19,6 +19,8 @@ const List = ({ valuePrice }) => {
     state.medicine.medicines.filter((med) => {
       const pharmacy = selectPharmacies.length ? selectPharmacies.includes(med.pharmacyName) : true;
       const category = selectCategories.length ? selectCategories.includes(med.category) : true;
+      const searchValue = search ? med.medName.toLowerCase().includes(search.toLowerCase()) : true;
+
       const typeDosage = selectTypeDosage.length
         ? selectTypeDosage.includes(med.typeOfDosageForm.toLowerCase())
         : true;
@@ -28,7 +30,8 @@ const List = ({ valuePrice }) => {
         med.price <= valuePrice[1] &&
         category &&
         pharmacy &&
-        typeDosage
+        typeDosage &&
+        searchValue
       );
     }),
   );
