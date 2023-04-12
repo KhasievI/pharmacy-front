@@ -2,18 +2,19 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   items: JSON.parse(localStorage.getItem("cart")),
+  carts: [], 
   loading: false,
+  status: ''
 };
 
 export const fetchCart = createAsyncThunk("cart/fetchCart", async (data, thunkAPI) => {
   try {
-    const { res } = await fetch("http://localhost:4141/cart", {
+    const res = await fetch("http://localhost:4141/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     const responseJson = await res.json();
-    console.log("responseJson", responseJson);
     if (responseJson.message) {
       thunkAPI.rejectWithValue(responseJson);
     }
@@ -56,26 +57,17 @@ export const deleteItem = createAsyncThunk("deleteItem/cart", async (itemId, thu
 
 export const deleteCart = createAsyncThunk("delete/cart", async (id, thunkAPI) => {
   try {
-    await fetch(`http://localhost:4141/cart/del/${id}`, {
-      method: "PATCH",
+    await fetch(`http://localhost:4141/cart/${id}`, {
+      method: "DELETE",
     });
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
 });
 
-export const getCart = createAsyncThunk("cart/getCart", async (id, thunkApi) => {
+export const getCart = createAsyncThunk("cart/getCart", async (pharmacy, thunkApi) => {
   try {
-    const res = await fetch(`http://localhost:4141/cart/${id}`);
-    return res.json();
-  } catch (err) {
-    return thunkApi.rejectWithValue(err);
-  }
-});
-
-export const getAllCarts = createAsyncThunk("cart/getAllCarts", async (_, thunkApi) => {
-  try {
-    const res = await fetch("http://localhost:4141/cart");
+    const res = await fetch(`http://localhost:4141/cart/${pharmacy}`);
     return res.json();
   } catch (err) {
     return thunkApi.rejectWithValue(err);
@@ -98,16 +90,17 @@ export const cartSlice = createSlice({
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.loading = false;
         state.items = [];
-        console.log(state.items);
+        state.status = 'Отправлено'
         localStorage.removeItem("items");
       })
       .addCase(fetchCart.rejected, (state) => {
         state.loading = false;
+        state.status = 'Ошибка'
       })
-      .addCase(addItemToLocalStorage.fulfilled, (state, action) => {
-        state.items.push(action.payload);
-        localStorage.setItem("items", `${JSON.stringify(state.items)}`);
-      })
+      // .addCase(addItemToLocalStorage.fulfilled, (state, action) => {
+      //   state.items.push(action.payload);
+      //   localStorage.setItem("items", `${JSON.stringify(state.items)}`)
+      // })
       // .addCase(updateItemToLocalStorage.fulfilled, (state, action) => {
       //   state.items = Object.assign(
       //     {},
@@ -123,16 +116,13 @@ export const cartSlice = createSlice({
       })
       .addCase(getCart.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.carts = action.payload;
       })
       .addCase(getCart.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(getAllCarts.fulfilled, (state, action) => {
-        state.items = action.payload;
-      })
       .addCase(deleteItem.fulfilled, (state, action) => {
-        state.items = state.items.filter((item) => (item._id === action.payload ? false : true));
+        state.items = state.items.filter((item) => (item.medId === action.payload ? false : true));
       });
   },
 });

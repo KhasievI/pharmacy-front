@@ -5,7 +5,7 @@ import styles from "./SearchBar.module.scss";
 import { checkIsAuth } from "../../redux/features/pharmacySlice";
 import UserModal from "../UserModal/UserModal.jsx";
 import Basket from "../Basket/Basket";
-import { getAllCarts } from "../../redux/features/cartSlice";
+import { getCart } from "../../redux/features/cartSlice";
 
 const SearchBar = ({ search, setSearch }) => {
   const [userModal, setUserModal] = useState(false);
@@ -14,7 +14,7 @@ const SearchBar = ({ search, setSearch }) => {
   const isAuth = useSelector(checkIsAuth);
   const inputRef = React.useRef();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
+  const carts = useSelector((state) => state.cart.carts)
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
@@ -22,7 +22,7 @@ const SearchBar = ({ search, setSearch }) => {
 
   React.useEffect(() => {
     if (isAuth) {
-      dispatch(getAllCarts());
+      dispatch(getCart());
     }
   }, []);
 
@@ -86,8 +86,9 @@ const SearchBar = ({ search, setSearch }) => {
           </div>
         </Link>
       ) : (
-        <button onClick={() => setOrderModal(true)} className={styles.order}>
+        <button onClick={() => navigate("/order")} className={styles.order}>
           Заказ
+          {carts?.length ? <span>{carts?.length}</span> : ""}
         </button>
       )}
       {isAuth ? (

@@ -40,6 +40,7 @@ const PharmacyList = ({ valuePrice }) => {
               src={`http://localhost:4141/${pharmacy.logo}`}
               alt=''
             />
+            
             <div className={styles.card_text}>
               <div className={styles.card_title}>{pharmacy.pharmacyName}</div>
               <div className={styles.price_cart_block}>

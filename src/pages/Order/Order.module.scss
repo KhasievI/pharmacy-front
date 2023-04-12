@@ -1,0 +1,22 @@
+.wrapper {
+  border: 1px solid grey;
+  .customer {
+    display: flex;
+    justify-content: space-between;
+    margin: 1%;
+    border-bottom: 1px solid grey;
+    .delete {
+      width: 1%;
+      cursor: pointer;
+    }
+  }
+  .orders {
+    margin: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img {
+      width: 4%;
+    }
+  }
+}
