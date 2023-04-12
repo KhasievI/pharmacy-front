@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { getPharmacy } from "./redux/features/pharmacySlice";
 import { ToastContainer } from "react-toastify";
@@ -18,22 +18,25 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import ListPage from "./pages/ListPage/ListPage";
 import MapHeader from "./components/MapHeader/MapHeader";
 import FavoritePage from "./pages/FavoritePage/FavoritePage";
+import { PharmacyPage } from "./pages/PharmacyPage/PharmacyPage";
 
 function App() {
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPharmacy());
   }, [dispatch]);
-
+  console.log(search);
   return (
     <div className={styles.App}>
       <MapHeader />
-      <SearchBar />
+      <SearchBar setSearch={setSearch} search={search} />
       <Menu />
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/items' element={<ListPage />} />
+        <Route path='/list' element={<ListPage setSearch={setSearch} search={search} />} />
+        <Route path='/items' element={<PharmacyPage />} />
         <Route path='/me' element={<PersonalArea />} />
         <Route path='/registrate' element={<Registrate />} />
         <Route path='/login' element={<Login />} />

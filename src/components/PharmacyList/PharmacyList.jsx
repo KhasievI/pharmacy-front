@@ -21,7 +21,7 @@ const PharmacyList = ({ valuePrice }) => {
   const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
 
   const handlePharmacies = (value) => {
-    navigate(`/items`);
+    navigate(`/list`);
     dispatch(switchPharmacy(value));
   };
 

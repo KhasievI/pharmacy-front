@@ -107,23 +107,6 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
             </div>
           </div>
         </div>
-        <div className={styles.pharmasy}>
-          <h2 className={styles.title}>Аптека</h2>
-          <ul className={styles.list}>
-            {pharmacies &&
-              pharmacies.map((pharmacy) => {
-                const classActive = selectPharmacies.includes(pharmacy.pharmacyName);
-                return (
-                  <div
-                    onClick={() => handlePharmacies(pharmacy.pharmacyName)}
-                    key={pharmacy._id}
-                    className={classActive ? `${styles.select}` : `${styles.li}`}>
-                    {pharmacy.pharmacyName}
-                  </div>
-                );
-              })}
-          </ul>
-        </div>
         <div className={styles.category}>
           <h2 className={styles.title}>Категория</h2>
           <ul className={styles.list}>

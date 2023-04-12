@@ -1,10 +1,9 @@
 .list {
+  width: 1000px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 5px;
-  margin: 20px 0;
+  grid-auto-rows: 330px;
   position: relative;
-  height: 330px;
   .cardblock {
     width: 230px;
     display: flex;
@@ -74,6 +73,7 @@
       overflow: hidden;
       border-radius: 5px;
       transition: 300ms;
+      max-height: 280px;
       &:hover {
         transform: scale(1.05);
       }

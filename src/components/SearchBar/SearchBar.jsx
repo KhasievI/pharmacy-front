@@ -7,8 +7,7 @@ import UserModal from "../UserModal/UserModal.jsx";
 import Basket from "../Basket/Basket";
 import { getAllCarts } from "../../redux/features/cartSlice";
 
-const SearchBar = () => {
-  const [search, setSearch] = useState("");
+const SearchBar = ({ search, setSearch }) => {
   const [userModal, setUserModal] = useState(false);
   const [orderModal, setOrderModal] = useState(false);
   const navigate = useNavigate();
@@ -39,6 +38,11 @@ const SearchBar = () => {
     setOrderModal(!orderModal);
   };
 
+  const handleSub = (e) => {
+    e.preventDefault();
+    navigate("/items");
+  };
+
   return (
     <div className={styles.conteiner}>
       <div className={styles.searchChild}>
@@ -46,13 +50,16 @@ const SearchBar = () => {
           <img src='logo.png' alt='' />
         </div>
         <div className={styles.searchBar}>
-          <input
-            ref={inputRef}
-            type='text'
-            className={styles.searchInp}
-            value={search}
-            onChange={handleSearchChange}
-          />
+          <form onSubmit={handleSub} action=''>
+            <input
+              onSubmit={() => navigate("/items")}
+              ref={inputRef}
+              type='text'
+              className={styles.searchInp}
+              value={search}
+              onChange={handleSearchChange}
+            />
+          </form>
           {search && (
             <svg
               onClick={handleClear}
