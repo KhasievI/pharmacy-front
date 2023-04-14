@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCard } from "../../redux/features/cartSlice";
 import styles from "./List.module.scss";
+import { useNavigate } from "react-router";
+import { checkIsAuth } from "../../redux/features/pharmacySlice";
 
 const Product = ({ medicine }) => {
   const dispatch = useDispatch();
@@ -12,6 +14,9 @@ const Product = ({ medicine }) => {
   const medFav = arr?.includes(medicine.medName);
   const [focus, setFocus] = useState(medFav);
   const [disabled, setDisabled] = useState(false);
+  const navigate = useNavigate()
+  const isAuth = useSelector(checkIsAuth);
+
 
   const handleFavorite = (productName) => {
     const fav = localStorage.getItem("fav");
@@ -74,7 +79,7 @@ const Product = ({ medicine }) => {
       onMouseLeave={() => setActive(false)}
       className={styles.cardblock}
       key=''>
-      <img className={styles.card_img} src={`${medicine.img}`} alt='' />
+      <img onClick={() => navigate(`med/${medicine._id}`)} className={styles.card_img} src={`${medicine.img}`} alt='' />
       <svg
         onClick={() => handleFavorite(medicine.medName)}
         className={active ? (focus ? styles.focus_btn : styles.active) : styles.favorite_btn}
@@ -86,15 +91,17 @@ const Product = ({ medicine }) => {
       </svg>
       <div className={styles.card_text}>
         <div className={styles.card_title}>{medicine.medName}</div>
-        <div className={styles.price_cart_block}>
-          <div className={styles.card_price}>{medicine.price}₽</div>
-          <button
-            disabled={disabled}
-            className={styles.cart_btn}
-            onClick={() => addToCard(medicine)}>
-            {disabled ? 'Уже в корзине' : 'В корзину'}
-          </button>
-        </div>
+        <div className={styles.card_price}>{medicine.price}₽</div>
+        {!isAuth &&
+          (<div className={styles.price_cart_block}>
+            <button
+              disabled={disabled}
+              className={styles.cart_btn}
+              onClick={() => addToCard(medicine)}>
+              {disabled ? 'Уже в корзине' : 'В корзину'}
+            </button>
+          </div>)
+        }
       </div>
     </div>
   );

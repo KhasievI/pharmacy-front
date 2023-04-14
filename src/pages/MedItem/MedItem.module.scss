@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  margin: auto;
+  align-items: center;
+  width: 80%;
+  min-height: 40rem;
+  background-color: white;
+  .img_blok {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    background-color: white;
+    img {
+      width: 33rem;
+    }
+  }
+  .blok_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+    min-height: 30rem;
+    background-color: white;
+    div {
+      padding: 1rem;
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    p {
+      color: black;
+    }
+    .b4 {
+      margin: auto;
+      .knopka22 {
+        width: 32rem;
+        height: 60px;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        margin-left: 0 0 15px 15px;
+      }
+    }
+  }
+}

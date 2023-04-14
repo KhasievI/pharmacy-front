@@ -1,12 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import List from "../../components/List/List";
-import SortPanel from "../../components/SortPanel/SortPanel";
-import styles from "./ListPage.module.scss";
+import React from "react"
+import { Link } from "react-router-dom"
+import List from "../../components/List/List"
+import SortPanel from "../../components/SortPanel/SortPanel"
+import styles from "./ListPage.module.scss"
 
 const ListPage = ({ search, setSearch }) => {
-  const [selectCategory, setSelectCategory] = React.useState("");
-  const [valuePrice, setValuePrice] = React.useState([0, 3000]);
+  const [selectCategory, setSelectCategory] = React.useState("")
+  const [valuePrice, setValuePrice] = React.useState([0, 3000])
+
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>

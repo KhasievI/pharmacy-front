@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
   items: JSON.parse(localStorage.getItem("cart")),
   carts: [], 
+  cart: {}, 
   loading: false,
   status: ''
 };
@@ -15,9 +16,6 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async (data, thunkAP
       body: JSON.stringify(data),
     });
     const responseJson = await res.json();
-    if (responseJson.message) {
-      thunkAPI.rejectWithValue(responseJson);
-    }
     return responseJson;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -65,9 +63,19 @@ export const deleteCart = createAsyncThunk("delete/cart", async (id, thunkAPI) =
   }
 });
 
-export const getCart = createAsyncThunk("cart/getCart", async (pharmacy, thunkApi) => {
+export const getCart = createAsyncThunk("cart/getCart", async (id, thunkApi) => {
+  console.log(id);
   try {
-    const res = await fetch(`http://localhost:4141/cart/${pharmacy}`);
+    const res = await fetch(`http://localhost:4141/cart/${id}`);
+    return res.json();
+  } catch (err) {
+    return thunkApi.rejectWithValue(err);
+  }
+});
+
+export const getCarts = createAsyncThunk("carts/getCarts", async (_, thunkApi) => {
+  try {
+    const res = await fetch("http://localhost:4141/cart");
     return res.json();
   } catch (err) {
     return thunkApi.rejectWithValue(err);
@@ -116,9 +124,19 @@ export const cartSlice = createSlice({
       })
       .addCase(getCart.fulfilled, (state, action) => {
         state.loading = false;
-        state.carts = action.payload;
+        state.cart = action.payload;
       })
       .addCase(getCart.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getCarts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCarts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.carts = action.payload;
+      })
+      .addCase(getCarts.rejected, (state) => {
         state.loading = false;
       })
       .addCase(deleteItem.fulfilled, (state, action) => {
