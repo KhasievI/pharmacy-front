@@ -27,7 +27,6 @@ const FavoriteProduct = ({ medicine }) => {
         const arr = JSON.parse(fav);
         arr.push(productName);
         localStorage.setItem("fav", JSON.stringify(arr));
-        console.log(arr);
       }
     } else {
       setFocus(true);

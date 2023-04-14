@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { getPharmacy } from "./redux/features/pharmacySlice";
+import { getPharmacies, getPharmacy } from "./redux/features/pharmacySlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Chatbot from "./components/Bot/Chatbot";
@@ -23,22 +23,21 @@ import { getCart } from "./redux/features/cartSlice";
 import FavoritePage from "./pages/FavoritePage/FavoritePage";
 import YMap from "./components/Map/YMap.jsx";
 import { PharmacyPage } from './pages/PharmacyPage/PharmacyPage';
+import { PharmItemPage } from './pages/PharmItemPage/PharmItemPage';
+import { MedItem } from './pages/MedItem/MedItem';
+import { fetchMedicines } from './redux/features/medicineSlice';
 
 function App() {
   const [map, setMap] = useState(false)
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
-  const pharmacy = useSelector((state) => state.pharmacy.pharmacy)
 
   useEffect(() => {
     dispatch(getPharmacy());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getCart(pharmacy.pharmacyName))
+    dispatch(fetchMedicines())
+    dispatch(getPharmacies())
   }, [dispatch])
 
-  console.log(search);
   return (
     <div className={styles.App}>
       {map ? <YMap setMap={setMap} /> : null}
@@ -47,8 +46,10 @@ function App() {
       <Menu />
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/pharm/:id' element={<PharmItemPage />} />
         <Route path='/order' element={<Order />} />
         <Route path='/list' element={<ListPage setSearch={setSearch} search={search} />} />
+        <Route path='/list/med/:id' element={<MedItem />} />
         <Route path='/items' element={<PharmacyPage />} />
         <Route path='/me' element={<PersonalArea />} />
         <Route path='/registrate' element={<Registrate />} />
@@ -58,7 +59,7 @@ function App() {
       </Routes>
       <Chatbot className={styles.bot} />
       <Footer />
-      <ToastContainer />
+      <ToastContainer position='bottom-left' />
     </div>
   );
 }

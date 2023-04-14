@@ -34,7 +34,7 @@ export const PersonalArea = () => {
     if (status) {
       toast(status)
     }
-  }, [status])
+  }, [])
 
   useEffect(() => {
     dispatch(fetchCategories())

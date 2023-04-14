@@ -1,5 +1,5 @@
 import React from "react";
-import "./YMap.css";
+import "./YMap.scss";
 
 const YMap = ({setMap}) => {
   const clickHandler = () => {

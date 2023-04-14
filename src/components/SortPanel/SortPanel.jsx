@@ -1,23 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  cleanCategories,
-  fetchCategories,
-  switchCategory,
-} from "../../redux/features/categorySlice";
+import { cleanCategories, fetchCategories, switchCategory } from "../../redux/features/categorySlice";
 import { cleanPharmacies, getPharmacies, switchPharmacy } from "../../redux/features/pharmacySlice";
 import styles from "./SortPanel.module.scss";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { cleanTypeDosage, switchTypeDosage } from "../../redux/features/medicineSlice";
+import { useState } from "react";
 
 const SortPanel = ({ valuePrice, setValuePrice }) => {
   const dispatch = useDispatch();
+  const [selectedPharmacy, setSelectedPharmacy] = useState("");
 
   const pharmacies = useSelector((state) => state.pharmacy.pharmacies);
   const categories = useSelector((state) => state.category.categories);
   const typesDosage = useSelector((state) => state.medicine.typeDosage);
+  const medicine = useSelector((state) => state.medicine.medicines);
 
   const selectCategories = useSelector((state) => state.category.selectCategories);
   const selectPharmacies = useSelector((state) => state.pharmacy.selectPharmacies);
@@ -32,7 +31,8 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
   };
 
   const handlePharmacies = (value) => {
-    dispatch(switchPharmacy(value));
+    setSelectedPharmacy(value) 
+    dispatch(switchPharmacy(selectedPharmacy));
   };
 
   const handleChange = (event, newValue) => {
@@ -106,6 +106,25 @@ const SortPanel = ({ valuePrice, setValuePrice }) => {
               </label>
             </div>
           </div>
+        </div>
+        <div className={styles.pharmacy}>
+          <h2 className={styles.title}>Аптека</h2>
+          <ul className={styles.list}>
+            {pharmacies &&
+              pharmacies.map((pharm) => {
+                const isDisabled = selectedPharmacy && selectedPharmacy !== pharm.pharmacyName;
+                const classActive = selectPharmacies.includes(pharm.pharmacyName);
+                return (
+                  <div
+                    key={pharm._id}
+                    onClick={() => handlePharmacies(pharm.pharmacyName)}
+                    className={classActive && !isDisabled ? `${styles.select}` : `${styles.li}`}
+                    disabled={isDisabled}>
+                    {pharm.pharmacyName}
+                  </div>
+                );
+              })}
+          </ul>
         </div>
         <div className={styles.category}>
           <h2 className={styles.title}>Категория</h2>

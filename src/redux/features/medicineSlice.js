@@ -2,23 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   typeDosage: [
-    "капли",
-    "настойка",
-    "настои",
-    "сироп",
-    "суспензия",
-    "эмульсия",
-    "капсулы",
-    "таблетки",
-    "порошки",
-    "гранулы",
-    "драже",
-    "мазь",
-    "гель",
-    "суппозитории",
-    "паста",
-    "крем",
-    "аэрозоли",
+    "Капли",
+    "Настойка",
+    "Настои",
+    "Сироп",
+    "Суспензия",
+    "Эмульсия",
+    "Ккапсулы",
+    "Таблетки",
+    "Порошки",
+    "Гранулы",
+    "Драже",
+    "Мазь",
+    "Гель",
+    "Суппозитории",
+    "Паста",
+    "Крем",
+    "Аэрозоли",
   ],
   selectTypeDosage: [],
   medicines: [],
@@ -142,7 +142,6 @@ export const updateMedicine = createAsyncThunk("update/medicine", async ({ medId
         category: data.get("cat"),
       }),
     });
-    console.log(res.json());
     return await res.json();
   } catch (error) {
     return error;
@@ -172,8 +171,8 @@ export const medicineSlice = createSlice({
         // state.status = "loading";
       })
       .addCase(fetchMedicines.fulfilled, (state, action) => {
-        state.medicines = action.payload;
-        state.status = "succeeded";
+        state.medicines = action.payload.medicine;
+        state.status = action.payload.message;
       })
       .addCase(fetchMedicines.rejected, (state, action) => {
         state.error = action.error.message;
@@ -183,8 +182,8 @@ export const medicineSlice = createSlice({
         // state.status = "loading";
       })
       .addCase(fetchMedicineById.fulfilled, (state, action) => {
-        state.medicine = action.payload;
-        state.status = "succeeded";
+        state.medicine = action.payload.medicine;
+        state.status = action.payload.message;
       })
       .addCase(fetchMedicineById.rejected, (state, action) => {
         state.error = action.error.message;
@@ -194,8 +193,8 @@ export const medicineSlice = createSlice({
         // state.status = "loading";
       })
       .addCase(addMedicine.fulfilled, (state, action) => {
-        state.medicines.push(action.payload);
-        state.status = "succeeded";
+        state.medicines.push(action.payload.medicine);
+        state.status = "Лекарство добавлено";
       })
       .addCase(addMedicine.rejected, (state, action) => {
         state.error = action.error.message;
@@ -205,8 +204,8 @@ export const medicineSlice = createSlice({
         // state.status = "loading";
       })
       .addCase(deleteMedicine.fulfilled, (state, action) => {
-        state.medicines = state.medicines.filter((medicine) => medicine.id !== action.payload.id);
-        state.status = "succeeded";
+        state.medicines = state.medicines.filter((medicine) => medicine.id !== action.payload.medicine.id);
+        state.status = "Удалено";
       })
       .addCase(deleteMedicine.rejected, (state, action) => {
         // state.status = "failed";
@@ -217,9 +216,9 @@ export const medicineSlice = createSlice({
       })
       .addCase(updateMedicine.fulfilled, (state, action) => {
         state.medicines = state.medicines.map((medicine) =>
-          medicine.id === action.payload.id ? action.payload : medicine,
+          medicine.id === action.payload.medicine.id ? action.payload.medicine : medicine,
         );
-        state.status = "succeeded";
+        state.status = action.payload.message;
       })
       .addCase(updateMedicine.rejected, (state, action) => {
         state.error = action.error.message;
